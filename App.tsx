@@ -1,52 +1,28 @@
 import React from 'react';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import {ApplicationProvider, IconRegistry, Layout} from '@ui-kitten/components';
+import {EvaIconsPack} from '@ui-kitten/eva-icons';
+import * as eva from '@eva-design/eva';
+import {Navigation} from './src/Navigation';
 
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {Button, Layout, Text} from '@ui-kitten/components';
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  const [counter, setCounter] = React.useState(0);
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Layout style={styles.container} level="1">
-            <Button onPress={() => setCounter(counter + 1)}>BUTTON</Button>
-
-            <Text style={styles.text}>{`Pressed ${counter} times`}</Text>
-          </Layout>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+export default (): React.ReactElement => (
+  <>
+    <IconRegistry icons={EvaIconsPack} />
+    <ApplicationProvider {...eva} theme={eva.light}>
+      <Layout style={styles.container}>
+        <SafeAreaView style={styles.safeArea}>
+          <Navigation />
+        </SafeAreaView>
+      </Layout>
+    </ApplicationProvider>
+  </>
+);
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flex: 1,
   },
-  text: {
-    marginHorizontal: 8,
+  safeArea: {
+    flex: 1,
   },
 });
-
-export default App;
