@@ -6,18 +6,20 @@ interface WatcherListStore {
   wactherList: string[];
   addWatcherItem: (item: string) => void;
   removeWatcherItem: (item: string) => void;
+  clearWatcherList: () => void;
 }
 
 export const useWatcherListStore = create<WatcherListStore>()(
   persist(
     set => ({
-      wactherList: [''],
+      wactherList: [],
       addWatcherItem: (item: string) =>
         set(state => ({wactherList: [...state.wactherList, item]})),
       removeWatcherItem: (item: string) =>
         set(state => ({
           wactherList: state.wactherList.filter(i => i !== item),
         })),
+      clearWatcherList: () => set(() => ({wactherList: []})),
     }),
     {
       name: 'watcher-storage',
