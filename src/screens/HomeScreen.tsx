@@ -1,44 +1,57 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
-import {Button, Layout, Text} from '@ui-kitten/components';
+import {Button, Input, Layout, Text} from '@ui-kitten/components';
 import {useWatcherListStore} from '../store/useWatcherListStore';
+import WatcherList from '../components/WatcherList.tsx/wactherList';
 
 export const HomeScreen = (): React.ReactElement => {
   const {wactherList, addWatcherItem, removeWatcherItem, clearWatcherList} =
     useWatcherListStore();
-  const [counter, setCounter] = React.useState(0);
+  const [value, setValue] = useState('');
 
   useEffect(() => {
     console.log(wactherList);
   }, [wactherList]);
 
   return (
-    <Layout style={styles.container} level="1">
-      {/* This inner Layout will have a different shade */}
-      <Layout style={styles.card} level="2">
-        <Text category="h6">Counter Demo</Text>
-        <Button style={styles.button} onPress={() => addWatcherItem('hello')}>
-          BUTTON
-        </Button>
-        <Button
-          style={styles.button}
-          onPress={() => removeWatcherItem('hello')}>
-          BUTTON
-        </Button>
-        <Text>{`Pressed ${counter} times`}</Text>
-      </Layout>
-
-      {/* This Layout will have yet another shade */}
-      <Layout style={styles.card} level="3">
-        <Text category="h6">Another Section</Text>
-        <Text>Notice the different background shade</Text>
+    <Layout style={styles.container}>
+      <Layout style={styles.contentContainer} level="1">
+        <Layout style={styles.card} level="3">
+          <Input
+            placeholder="Add Algorand address to start watching..."
+            value={value}
+            onChangeText={nextValue => setValue(nextValue)}
+          />
+        </Layout>
+        <Layout style={styles.card} level="2">
+          <WatcherList />
+        </Layout>
       </Layout>
     </Layout>
   );
 };
 
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     flexDirection: 'row',
+//   },
+//   layout: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+// });
+
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  watcherListContainer: {
+    padding: 16,
+    paddingBottom: 0,
+  },
+  contentContainer: {
     flex: 1,
     padding: 16,
   },
@@ -49,5 +62,10 @@ const styles = StyleSheet.create({
   },
   button: {
     marginVertical: 8,
+  },
+  layout: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
