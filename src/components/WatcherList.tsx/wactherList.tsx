@@ -9,7 +9,10 @@ import {
 } from '@ui-kitten/components';
 import {StyleSheet, Image} from 'react-native';
 import {formatWalletAddress} from '../../utils/formatters';
-import {useWatcherListStore} from '../../store/useWatcherListStore';
+import {
+  useWatcherListStore,
+  WatcherListItem,
+} from '../../store/useWatcherListStore';
 import {AccountInfo} from '../../api/api';
 
 const TrashIcon = (props: IconProps): IconElement => (
@@ -17,10 +20,11 @@ const TrashIcon = (props: IconProps): IconElement => (
 );
 
 const WatcherList = (): React.ReactElement => {
-  const {wactherList, addWatcherItem, removeWatcherItem, clearWatcherList} =
+  const {getWatcherList, removeWatcherItem, clearWatcherList} =
     useWatcherListStore();
+  const watcherList = getWatcherList();
 
-  const renderItemAccessory = (item: AccountInfo): React.ReactElement => (
+  const renderItemAccessory = (item: WatcherListItem): React.ReactElement => (
     // <Icon {...props} name="trash-outline" />
     // <Button size="tiny"  >FOLLOW</Button>
     <Button
@@ -28,13 +32,15 @@ const WatcherList = (): React.ReactElement => {
       appearance="ghost"
       status="danger"
       accessoryLeft={TrashIcon}
-      onPress={() => removeWatcherItem(item)}
+      onPress={() => removeWatcherItem(item.currentState.address)}
     />
   );
 
-  const renderItemIcon = (item: AccountInfo): IconElement => (
+  const renderItemIcon = (item: WatcherListItem): IconElement => (
     <Image
-      source={{uri: `https://robohash.org/${item.address}?set=set1&bgset=bg1`}}
+      source={{
+        uri: `https://robohash.org/${item.currentState.address}?set=set1&bgset=bg1`,
+      }}
       style={{width: 30, height: 30}}
     />
   );
@@ -43,19 +49,19 @@ const WatcherList = (): React.ReactElement => {
     item,
     index,
   }: {
-    item: AccountInfo;
+    item: WatcherListItem;
     index: number;
   }): React.ReactElement => (
     <ListItem
-      title={formatWalletAddress(item.address)}
-      description={item.amount}
+      title={formatWalletAddress(item.currentState.address)}
+      description={`${item.currentState.amount} ALGO`}
       accessoryLeft={() => renderItemIcon(item)}
       accessoryRight={() => renderItemAccessory(item)}
     />
   );
 
   return (
-    <List style={styles.container} data={wactherList} renderItem={renderItem} />
+    <List style={styles.container} data={watcherList} renderItem={renderItem} />
   );
 };
 
