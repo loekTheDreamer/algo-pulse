@@ -85,21 +85,23 @@ export const useWatcherListStore = create<WatcherListStore>()(
 
               // Compare relevant state changes
               if (lastState) {
-                const hasChanges = lastState.amount !== newState.amount;
-                // ||
-                // lastState['amount-without-pending-rewards'] !==
-                //   newState['amount-without-pending-rewards'] ||
-                // lastState.assets?.length !== newState.assets?.length ||
-                // lastState['created-assets']?.length !==
-                //   newState['created-assets']?.length ||
-                // lastState.round !== newState.round;
+                const hasChanges =
+                  lastState.amount !== newState.amount ||
+                  lastState['amount-without-pending-rewards'] !==
+                    newState['amount-without-pending-rewards'] ||
+                  lastState.assets?.length !== newState.assets?.length ||
+                  lastState['created-assets']?.length !==
+                    newState['created-assets']?.length;
 
                 if (hasChanges) {
                   console.log(`State changed for address: ${address}`);
                   // Show toast notification
                   useToastStore
                     .getState()
-                    .showToast(`Balance changed for ${formatWalletAddress(address)}`, 'info');
+                    .showToast(
+                      `Balance changed for ${formatWalletAddress(address)}`,
+                      'info',
+                    );
                   // Update the watcher item with new state
                   set(() => ({
                     watchers: {
