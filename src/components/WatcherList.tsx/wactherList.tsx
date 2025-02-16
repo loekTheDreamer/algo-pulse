@@ -11,16 +11,17 @@ import {StyleSheet, Image} from 'react-native';
 import {formatWalletAddress} from '../../utils/formatters';
 import {useWatcherListStore} from '../../store/useWatcherListStore';
 import {AccountInfo} from '../../api/api';
+import {WatcherListItem} from '../../store/useWatcherListStore';
 
 const TrashIcon = (props: IconProps): IconElement => (
   <Icon {...props} name="trash-2" width={16} height={16} />
 );
 
 const WatcherList = (): React.ReactElement => {
-  const {wactherList, addWatcherItem, removeWatcherItem, clearWatcherList} =
+  const {watchers, addWatcherItem, removeWatcherItem, clearWatcherList, getWatcherList} =
     useWatcherListStore();
 
-  const renderItemAccessory = (item: AccountInfo): React.ReactElement => (
+  const renderItemAccessory = (item: WatcherListItem): React.ReactElement => (
     // <Icon {...props} name="trash-outline" />
     // <Button size="tiny"  >FOLLOW</Button>
     <Button
@@ -32,7 +33,7 @@ const WatcherList = (): React.ReactElement => {
     />
   );
 
-  const renderItemIcon = (item: AccountInfo): IconElement => (
+  const renderItemIcon = (item: WatcherListItem): IconElement => (
     <Image
       source={{uri: `https://robohash.org/${item.address}?set=set1&bgset=bg1`}}
       style={{width: 30, height: 30}}
@@ -43,7 +44,7 @@ const WatcherList = (): React.ReactElement => {
     item,
     index,
   }: {
-    item: AccountInfo;
+    item: WatcherListItem;
     index: number;
   }): React.ReactElement => (
     <ListItem
@@ -55,7 +56,7 @@ const WatcherList = (): React.ReactElement => {
   );
 
   return (
-    <List style={styles.container} data={wactherList} renderItem={renderItem} />
+    <List style={styles.container} data={getWatcherList()} renderItem={renderItem} />
   );
 };
 

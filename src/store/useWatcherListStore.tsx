@@ -1,5 +1,5 @@
 import type {AccountInfo} from '../api/api';
-import {create} from 'zustand';
+import {create, StateCreator} from 'zustand';
 import {createJSONStorage, persist} from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -8,48 +8,41 @@ export interface WatcherListItem extends AccountInfo {
 }
 
 interface WatcherListStore {
-  wactherList: WatcherListItem[];
+  watchers: Record<string, WatcherListItem>;
   addWatcherItem: (item: AccountInfo) => void;
-  removeWatcherItem: (item: WatcherListItem) => void;
+  removeWatcherItem: (address: string) => void;
   clearWatcherList: () => void;
+  getWatcherList: () => WatcherListItem[];
 }
 
 export const useWatcherListStore = create<WatcherListStore>()(
   persist(
-    set => ({
-      wactherList: [],
+    (set, get) => ({
+      watchers: {},
       addWatcherItem: (item: AccountInfo) =>
         set(state => {
-          // Check if item already exists in the list
-          const exists = state.wactherList.some(
-            existingItem => existingItem.address === item.address,
-          );
-
-          // Only add if it doesn't exist
-          if (!exists) {
-            return {
-              wactherList: [
-                ...state.wactherList,
-                {
-                  ...item,
-                  dateAdded: new Date().toISOString(),
-                },
-              ],
-            };
-          } else {
+          if (state.watchers[item.address]) {
             console.log('Item already exists');
+            return state;
           }
-
-          // If item exists, return state unchanged
-          return state;
+          return {
+            watchers: {
+              ...state.watchers,
+              [item.address]: {
+                ...item,
+                dateAdded: new Date().toISOString(),
+              },
+            },
+          };
         }),
-      removeWatcherItem: (item: WatcherListItem) =>
-        set(state => ({
-          wactherList: state.wactherList.filter(
-            i => i.address !== item.address,
-          ),
-        })),
-      clearWatcherList: () => set(() => ({wactherList: []})),
+      removeWatcherItem: (address: string) =>
+        set(state => {
+          const newWatchers = {...state.watchers};
+          delete newWatchers[address];
+          return {watchers: newWatchers};
+        }),
+      clearWatcherList: () => set(() => ({watchers: {}})),
+      getWatcherList: () => Object.values(get().watchers),
     }),
     {
       name: 'watcher-storage',
