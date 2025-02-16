@@ -19,15 +19,30 @@ export const useWatcherListStore = create<WatcherListStore>()(
     set => ({
       wactherList: [],
       addWatcherItem: (item: AccountInfo) =>
-        set(state => ({
-          wactherList: [
-            ...state.wactherList,
-            {
-              ...item,
-              dateAdded: new Date().toISOString(),
-            },
-          ],
-        })),
+        set(state => {
+          // Check if item already exists in the list
+          const exists = state.wactherList.some(
+            existingItem => existingItem.address === item.address,
+          );
+
+          // Only add if it doesn't exist
+          if (!exists) {
+            return {
+              wactherList: [
+                ...state.wactherList,
+                {
+                  ...item,
+                  dateAdded: new Date().toISOString(),
+                },
+              ],
+            };
+          } else {
+            console.log('Item already exists');
+          }
+
+          // If item exists, return state unchanged
+          return state;
+        }),
       removeWatcherItem: (item: WatcherListItem) =>
         set(state => ({
           wactherList: state.wactherList.filter(
