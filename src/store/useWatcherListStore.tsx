@@ -1,11 +1,12 @@
+import type {AccountInfo} from '../api/api';
 import {create} from 'zustand';
 import {createJSONStorage, persist} from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface WatcherListStore {
-  wactherList: string[];
-  addWatcherItem: (item: string) => void;
-  removeWatcherItem: (item: string) => void;
+  wactherList: AccountInfo[];
+  addWatcherItem: (item: AccountInfo) => void;
+  removeWatcherItem: (item: AccountInfo) => void;
   clearWatcherList: () => void;
 }
 
@@ -13,11 +14,13 @@ export const useWatcherListStore = create<WatcherListStore>()(
   persist(
     set => ({
       wactherList: [],
-      addWatcherItem: (item: string) =>
+      addWatcherItem: (item: AccountInfo) =>
         set(state => ({wactherList: [...state.wactherList, item]})),
-      removeWatcherItem: (item: string) =>
+      removeWatcherItem: (item: AccountInfo) =>
         set(state => ({
-          wactherList: state.wactherList.filter(i => i !== item),
+          wactherList: state.wactherList.filter(
+            i => i.address !== item.address,
+          ),
         })),
       clearWatcherList: () => set(() => ({wactherList: []})),
     }),

@@ -7,7 +7,8 @@ import {
   ListItem,
   IconProps,
 } from '@ui-kitten/components';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Image} from 'react-native';
+import {formatWalletAddress} from '../../utils/formatters';
 
 interface IListItem {
   title: string;
@@ -15,17 +16,31 @@ interface IListItem {
 }
 
 const data = new Array(8).fill({
-  title: 'Title for Item',
+  title: 'J25ABPMWJLJECPMGWWM42BAG6BGILFY3VL732IAKP2YPCLURIE26LV6XYE',
   description: 'Description for Item',
 });
 
+const TrashIcon = (props: IconProps): IconElement => (
+  <Icon {...props} name="trash-2" width={16} height={16} />
+);
+
 const WatcherList = (): React.ReactElement => {
-  const renderItemAccessory = (): React.ReactElement => (
-    <Button size="tiny">FOLLOW</Button>
+  const renderItemAccessory = (props: IconProps): React.ReactElement => (
+    // <Icon {...props} name="trash-outline" />
+    // <Button size="tiny"  >FOLLOW</Button>
+    <Button
+      size="tiny"
+      appearance="ghost"
+      status="danger"
+      accessoryLeft={TrashIcon}
+    />
   );
 
   const renderItemIcon = (props: IconProps): IconElement => (
-    <Icon {...props} name="person" />
+    <Image
+      source={{uri: `https://robohash.org/${'luke'}?set=set1&bgset=bg1`}}
+      style={{width: 30, height: 30}}
+    />
   );
 
   const renderItem = ({
@@ -36,7 +51,7 @@ const WatcherList = (): React.ReactElement => {
     index: number;
   }): React.ReactElement => (
     <ListItem
-      title={`${item.title} ${index + 1}`}
+      title={formatWalletAddress(item.title)}
       description={`${item.description} ${index + 1}`}
       accessoryLeft={renderItemIcon}
       accessoryRight={renderItemAccessory}

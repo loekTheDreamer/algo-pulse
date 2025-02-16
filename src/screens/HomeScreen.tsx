@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native';
 import {Button, Input, Layout, Text} from '@ui-kitten/components';
 import {useWatcherListStore} from '../store/useWatcherListStore';
 import WatcherList from '../components/WatcherList.tsx/wactherList';
+import {watchAddress} from '../api/api';
 
 export const HomeScreen = (): React.ReactElement => {
   const {wactherList, addWatcherItem, removeWatcherItem, clearWatcherList} =
@@ -13,6 +14,16 @@ export const HomeScreen = (): React.ReactElement => {
     console.log(wactherList);
   }, [wactherList]);
 
+  const handleAddWatcher = async () => {
+    try {
+      const watching = await watchAddress(value.trim());
+      console.log('watching', watching);
+      addWatcherItem(watching.data!);
+    } catch (error) {
+      console.error('Error watching address:', error);
+    }
+  };
+
   return (
     <Layout style={styles.container}>
       <Layout style={styles.contentContainer} level="1">
@@ -21,6 +32,7 @@ export const HomeScreen = (): React.ReactElement => {
             placeholder="Add Algorand address to start watching..."
             value={value}
             onChangeText={nextValue => setValue(nextValue)}
+            onSubmitEditing={handleAddWatcher}
           />
         </Layout>
         <Layout style={styles.card} level="2">
