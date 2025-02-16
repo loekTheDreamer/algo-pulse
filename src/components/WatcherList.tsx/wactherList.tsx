@@ -10,7 +10,6 @@ import {
 import {StyleSheet, Image} from 'react-native';
 import {formatWalletAddress} from '../../utils/formatters';
 import {useWatcherListStore} from '../../store/useWatcherListStore';
-import {AccountInfo} from '../../api/api';
 import {WatcherListItem} from '../../store/useWatcherListStore';
 
 const TrashIcon = (props: IconProps): IconElement => (
@@ -18,8 +17,7 @@ const TrashIcon = (props: IconProps): IconElement => (
 );
 
 const WatcherList = (): React.ReactElement => {
-  const {watchers, addWatcherItem, removeWatcherItem, clearWatcherList, getWatcherList} =
-    useWatcherListStore();
+  const {removeWatcherItem, getWatcherList} = useWatcherListStore();
 
   const renderItemAccessory = (item: WatcherListItem): React.ReactElement => (
     // <Icon {...props} name="trash-outline" />
@@ -42,7 +40,6 @@ const WatcherList = (): React.ReactElement => {
 
   const renderItem = ({
     item,
-    index,
   }: {
     item: WatcherListItem;
     index: number;
@@ -56,7 +53,11 @@ const WatcherList = (): React.ReactElement => {
   );
 
   return (
-    <List style={styles.container} data={getWatcherList()} renderItem={renderItem} />
+    <List
+      style={styles.container}
+      data={getWatcherList()}
+      renderItem={renderItem}
+    />
   );
 };
 

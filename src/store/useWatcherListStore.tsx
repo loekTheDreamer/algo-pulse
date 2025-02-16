@@ -1,5 +1,5 @@
 import type {AccountInfo} from '../api/api';
-import {create, StateCreator} from 'zustand';
+import {create} from 'zustand';
 import {createJSONStorage, persist} from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
