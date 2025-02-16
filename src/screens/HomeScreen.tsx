@@ -4,23 +4,41 @@ import {Button, Input, Layout, Text} from '@ui-kitten/components';
 import {useWatcherListStore} from '../store/useWatcherListStore';
 import WatcherList from '../components/WatcherList.tsx/wactherList';
 import {watchAddress} from '../api/api';
+import {useToastStore} from '../store/useToastStore';
 
 export const HomeScreen = (): React.ReactElement => {
-  const {wactherList, addWatcherItem, removeWatcherItem, clearWatcherList} =
+  const {watchers, addWatcherItem, removeWatcherItem, clearWatcherList} =
     useWatcherListStore();
   const [value, setValue] = useState('');
+  const { showToast } = useToastStore();
 
   useEffect(() => {
-    console.log(wactherList);
-  }, [wactherList]);
+    console.log(watchers);
+  }, [watchers]);
 
   const handleAddWatcher = async () => {
+    const trimmedValue = value.trim();
+    if (!trimmedValue) {
+      showToast('Please enter an Algorand address', 'error');
+      return;
+    }
+    if (watchers[trimmedValue]) {
+      showToast('This address is already being watched', 'error');
+      return;
+    }
     try {
-      const watching = await watchAddress(value.trim());
-      console.log('watching', watching);
-      addWatcherItem(watching.data!);
+      const watching = await watchAddress(trimmedValue);
+      if (watching.data) {
+        addWatcherItem({
+          ...watching.data,
+          dateAdded: new Date().toISOString()
+        });
+        showToast('Address added to watchlist', 'success');
+        setValue('');
+      }
     } catch (error) {
       console.error('Error watching address:', error);
+      showToast('Error adding address to watchlist', 'error');
     }
   };
 
