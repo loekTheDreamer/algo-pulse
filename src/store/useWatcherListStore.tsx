@@ -9,6 +9,8 @@ export interface WatcherListItem extends AccountInfo {
 }
 
 interface WatcherListStore {
+  _hasHydrated: boolean;
+  setHasHydrated: (state: boolean) => void;
   watchers: Record<string, WatcherListItem>;
   lastKnownStates: Record<string, AccountInfo>;
   isCheckingStates: boolean;
@@ -26,6 +28,8 @@ let checkInterval: NodeJS.Timeout | null = null;
 export const useWatcherListStore = create<WatcherListStore>()(
   persist(
     (set, get) => ({
+      _hasHydrated: false,
+      setHasHydrated: (state: boolean) => set({ _hasHydrated: state }),
       watchers: {},
       lastKnownStates: {},
       isCheckingStates: false,
@@ -140,6 +144,9 @@ export const useWatcherListStore = create<WatcherListStore>()(
     {
       name: 'watcher-storage',
       storage: createJSONStorage(() => AsyncStorage),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     },
   ),
 );
