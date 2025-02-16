@@ -1,4 +1,3 @@
-import type {AccountInfo} from '../api/api';
 import {compareAccountStates} from '../utils/stateComparison';
 import {create} from 'zustand';
 import {createJSONStorage, persist} from 'zustand/middleware';
@@ -6,25 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {watchAddress} from '../api/api';
 import {useToastStore} from './useToastStore';
 import {formatWalletAddress} from '../utils/formatters';
-
-export interface WatcherListItem extends AccountInfo {
-  dateAdded: string;
-}
-
-interface WatcherListStore {
-  _hasHydrated: boolean;
-  setHasHydrated: (state: boolean) => void;
-  watchers: Record<string, WatcherListItem>;
-  lastKnownStates: Record<string, AccountInfo>;
-  isCheckingStates: boolean;
-  addWatcherItem: (item: WatcherListItem) => void;
-  removeWatcherItem: (item: WatcherListItem) => void;
-  clearWatcherList: () => void;
-  getWatcherList: () => WatcherListItem[];
-  checkStateChanges: () => Promise<void>;
-  startPeriodicCheck: () => void;
-  stopPeriodicCheck: () => void;
-}
+import type {WatcherListItem, WatcherListStore} from '../types/watcherList';
 
 let checkInterval: NodeJS.Timeout | null = null;
 

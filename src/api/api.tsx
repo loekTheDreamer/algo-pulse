@@ -1,43 +1,10 @@
 import axios, {AxiosError} from 'axios';
 import NetInfo from '@react-native-community/netinfo';
+import type {AccountInfo, WatchAddressResponse} from '../types/algorand';
 
 // const ALGO_NODE_URL = 'https://mainnet-api.algonode.cloud';
-
 const ALGO_NODE_URL = 'https://testnet-api.algonode.cloud';
 
-export interface AccountInfo {
-  address: string;
-  amount: number;
-  'amount-without-pending-rewards': number;
-  'apps-local-state': any[];
-  'apps-total-schema': {
-    'num-byte-slice': number;
-    'num-uint': number;
-  };
-  assets: any[];
-  'created-apps': any[];
-  'created-assets': any[];
-  participation: any;
-  'pending-rewards': number;
-  'reward-base': number;
-  rewards: number;
-  round: number;
-  status: string;
-}
-
-export interface WatchAddressResponse {
-  data: AccountInfo | null;
-  error: string | null;
-}
-
-// address with tokens
-// CIAFMKNV3IPQJRYCGQ65J7IBPICHXYUOECJ3CPZFSK7DERCRJX2RH32MZA
-
-// large
-// J25ABPMWJLJECPMGWWM42BAG6BGILFY3VL732IAKP2YPCLURIE26LV6XYE
-
-// my address
-// XKXQJTM2K6Y7UAVKCQEGC5PRG2C24NOXSRSS2EAFAOSGKKHRLB4U4EO3EI
 export const watchAddress = async (
   address: string,
 ): Promise<WatchAddressResponse> => {
