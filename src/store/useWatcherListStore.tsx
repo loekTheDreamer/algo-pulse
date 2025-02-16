@@ -1,13 +1,13 @@
-import {compareAccountStates} from '../utils/stateComparison';
+import {compareAccountStates} from '@/utils/stateComparison';
 import {create} from 'zustand';
 import {createJSONStorage, persist} from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {watchAddress} from '../api/api';
-import {useToastStore} from './useToastStore';
-import {formatWalletAddress} from '../utils/formatters';
-import type {WatcherListItem, WatcherListStore} from '../types/watcherList';
+import {watchAddress} from '@/api/api';
+import {useToastStore} from '@/store/useToastStore';
+import {formatWalletAddress} from '@/utils/formatters';
+import type {WatcherListItem, WatcherListStore} from '@/types/watcherList';
 
-let checkInterval: NodeJS.Timeout | null = null;
+let checkInterval: ReturnType<typeof setInterval> | null = null;
 
 export const useWatcherListStore = create<WatcherListStore>()(
   persist(

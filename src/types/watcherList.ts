@@ -1,4 +1,4 @@
-import type { AccountInfo } from './algorand';
+import type {AccountInfo} from '@/types/algorand';
 
 export interface WatcherListItem extends AccountInfo {
   dateAdded: string;

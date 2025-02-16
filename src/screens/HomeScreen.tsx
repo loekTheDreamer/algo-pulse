@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {Input, Layout} from '@ui-kitten/components';
-import {useWatcherListStore} from '../store/useWatcherListStore';
-import WatcherList from '../components/WatcherList.tsx/wactherList';
-import {watchAddress} from '../api/api';
-import {useToastStore} from '../store/useToastStore';
+
+import {useWatcherListStore} from '@/store/useWatcherListStore';
+import WatcherList from '@/components/WatcherList/wactherList';
+import {watchAddress} from '@/api/api';
+import {useToastStore} from '@/store/useToastStore';
 
 export const HomeScreen = (): React.ReactElement => {
   const {watchers, addWatcherItem} = useWatcherListStore();

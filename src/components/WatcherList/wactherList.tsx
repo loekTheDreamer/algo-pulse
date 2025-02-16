@@ -8,9 +8,9 @@ import {
   IconProps,
 } from '@ui-kitten/components';
 import {StyleSheet, Image} from 'react-native';
-import {formatWalletAddress} from '../../utils/formatters';
-import {useWatcherListStore} from '../../store/useWatcherListStore';
-import type {WatcherListItem} from '../../types/watcherList';
+import {formatWalletAddress} from '@/utils/formatters';
+import {useWatcherListStore} from '@/store/useWatcherListStore';
+import type {WatcherListItem} from '@/types/watcherList';
 
 const TrashIcon = (props: IconProps): IconElement => (
   <Icon {...props} name="trash-2" width={16} height={16} />

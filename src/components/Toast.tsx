@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Animated } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
-import { useToastStore } from '../store/useToastStore';
+import React, {useEffect} from 'react';
+import {StyleSheet, Animated} from 'react-native';
+import {Layout, Text} from '@ui-kitten/components';
+import {useToastStore} from '@/store/useToastStore';
 
 export const Toast = (): React.ReactElement | null => {
-  const { message, type, visible } = useToastStore();
+  const {message, type, visible} = useToastStore();
   const fadeAnim = React.useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -23,7 +23,9 @@ export const Toast = (): React.ReactElement | null => {
     }
   }, [visible, fadeAnim]);
 
-  if (!visible) return null;
+  if (!visible) {
+    return null;
+  }
 
   const backgroundColor = {
     success: '#4CAF50',
@@ -32,8 +34,8 @@ export const Toast = (): React.ReactElement | null => {
   }[type];
 
   return (
-    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
-      <Layout style={[styles.content, { backgroundColor }]}>
+    <Animated.View style={[styles.container, {opacity: fadeAnim}]}>
+      <Layout style={[styles.content, {backgroundColor}]}>
         <Text style={styles.message}>{message}</Text>
       </Layout>
     </Animated.View>

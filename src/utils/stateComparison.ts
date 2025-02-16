@@ -1,4 +1,4 @@
-import type {AccountInfo} from '../types/algorand';
+import type {AccountInfo} from '@/types/algorand';
 
 export function compareAccountStates(
   lastState: AccountInfo,
