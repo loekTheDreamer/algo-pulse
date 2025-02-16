@@ -3,6 +3,8 @@ import {create} from 'zustand';
 import {createJSONStorage, persist} from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {watchAddress} from '../api/api';
+import {useToastStore} from './useToastStore';
+import {formatWalletAddress} from '../utils/formatters';
 
 export interface WatcherListItem extends AccountInfo {
   dateAdded: string;
@@ -87,6 +89,7 @@ export const useWatcherListStore = create<WatcherListStore>()(
 
                 if (hasChanges) {
                   console.log(`State changed for address: ${address}`);
+                  useToastStore.getState().showToast(`Changes detected for address: ${formatWalletAddress(address)}`, 'info');
                   // Update the watcher item with new state
                   set(() => ({
                     watchers: {
