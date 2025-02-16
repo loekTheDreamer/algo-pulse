@@ -9,8 +9,8 @@ export interface WatcherListItem extends AccountInfo {
 
 interface WatcherListStore {
   watchers: Record<string, WatcherListItem>;
-  addWatcherItem: (item: AccountInfo) => void;
-  removeWatcherItem: (address: string) => void;
+  addWatcherItem: (item: WatcherListItem) => void;
+  removeWatcherItem: (item: WatcherListItem) => void;
   clearWatcherList: () => void;
   getWatcherList: () => WatcherListItem[];
 }
@@ -19,7 +19,7 @@ export const useWatcherListStore = create<WatcherListStore>()(
   persist(
     (set, get) => ({
       watchers: {},
-      addWatcherItem: (item: AccountInfo) =>
+      addWatcherItem: (item: WatcherListItem) =>
         set(state => {
           if (state.watchers[item.address]) {
             console.log('Item already exists');
@@ -35,10 +35,10 @@ export const useWatcherListStore = create<WatcherListStore>()(
             },
           };
         }),
-      removeWatcherItem: (address: string) =>
+      removeWatcherItem: (item: WatcherListItem) =>
         set(state => {
           const newWatchers = {...state.watchers};
-          delete newWatchers[address];
+          delete newWatchers[item.address];
           return {watchers: newWatchers};
         }),
       clearWatcherList: () => set(() => ({watchers: {}})),
