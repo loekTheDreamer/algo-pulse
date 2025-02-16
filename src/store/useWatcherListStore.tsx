@@ -67,7 +67,9 @@ export const useWatcherListStore = create<WatcherListStore>()(
         set({isCheckingStates: true});
 
         try {
+          console.log('try');
           const addresses = Object.keys(state.watchers);
+          console.log('addresses', addresses);
           for (const address of addresses) {
             const response = await watchAddress(address);
             if (response.data) {
@@ -130,8 +132,9 @@ export const useWatcherListStore = create<WatcherListStore>()(
 
         // Set up periodic check every 60 seconds
         checkInterval = setInterval(() => {
+          console.log('Checking state changes...');
           get().checkStateChanges();
-        }, 60000);
+        }, 6000);
       },
 
       stopPeriodicCheck: () => {
