@@ -17,7 +17,22 @@ const TrashIcon = (props: IconProps): IconElement => (
 );
 
 const WatcherList = (): React.ReactElement => {
-  const {removeWatcherItem, getWatcherList} = useWatcherListStore();
+  const {
+    removeWatcherItem,
+    getWatcherList,
+    startPeriodicCheck,
+    stopPeriodicCheck,
+  } = useWatcherListStore();
+
+  React.useEffect(() => {
+    // Start periodic check when component mounts
+    startPeriodicCheck();
+
+    // Clean up when component unmounts
+    return () => {
+      stopPeriodicCheck();
+    };
+  }, [startPeriodicCheck, stopPeriodicCheck]);
 
   const renderItemAccessory = (item: WatcherListItem): React.ReactElement => (
     // <Icon {...props} name="trash-outline" />
