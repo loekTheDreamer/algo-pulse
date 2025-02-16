@@ -8,13 +8,17 @@
 export const formatWalletAddress = (
   address: string,
   prefixLength: number = 4,
-  suffixLength: number = 4
+  suffixLength: number = 4,
 ): string => {
-  if (!address) return '';
-  if (address.length <= prefixLength + suffixLength) return address;
-  
+  if (!address) {
+    return '';
+  }
+  if (address.length <= prefixLength + suffixLength) {
+    return address;
+  }
+
   const prefix = address.slice(0, prefixLength);
   const suffix = address.slice(-suffixLength);
-  
+
   return `${prefix}...${suffix}`;
 };
