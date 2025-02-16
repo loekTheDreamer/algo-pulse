@@ -3,6 +3,8 @@ import {create} from 'zustand';
 import {createJSONStorage, persist} from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {watchAddress} from '../api/api';
+import {useToastStore} from './useToastStore';
+import {formatWalletAddress} from '../utils/formatters';
 
 export interface WatcherListItem extends AccountInfo {
   dateAdded: string;
@@ -60,14 +62,19 @@ export const useWatcherListStore = create<WatcherListStore>()(
 
       checkStateChanges: async () => {
         const state = get();
+        console.log('state.isCheckingStates: ', state.isCheckingStates);
+
+        // Force reset if it's been stuck for more than 30 seconds
         if (state.isCheckingStates) {
-          return;
+          console.log('Found isCheckingStates true, forcing reset');
+          set({isCheckingStates: false});
+          return; // Skip this check cycle to let state update
         }
 
         set({isCheckingStates: true});
-
+        console.log('Set isCheckingStates to true, proceeding with check');
         try {
-          console.log('try');
+          console.log('Starting try block');
           const addresses = Object.keys(state.watchers);
           console.log('addresses', addresses);
           for (const address of addresses) {
@@ -78,17 +85,21 @@ export const useWatcherListStore = create<WatcherListStore>()(
 
               // Compare relevant state changes
               if (lastState) {
-                const hasChanges =
-                  lastState.amount !== newState.amount ||
-                  lastState['amount-without-pending-rewards'] !==
-                    newState['amount-without-pending-rewards'] ||
-                  lastState.assets?.length !== newState.assets?.length ||
-                  lastState['created-assets']?.length !==
-                    newState['created-assets']?.length ||
-                  lastState.round !== newState.round;
+                const hasChanges = lastState.amount !== newState.amount;
+                // ||
+                // lastState['amount-without-pending-rewards'] !==
+                //   newState['amount-without-pending-rewards'] ||
+                // lastState.assets?.length !== newState.assets?.length ||
+                // lastState['created-assets']?.length !==
+                //   newState['created-assets']?.length ||
+                // lastState.round !== newState.round;
 
                 if (hasChanges) {
                   console.log(`State changed for address: ${address}`);
+                  // Show toast notification
+                  useToastStore
+                    .getState()
+                    .showToast(`Balance changed for ${formatWalletAddress(address)}`, 'info');
                   // Update the watcher item with new state
                   set(() => ({
                     watchers: {
@@ -116,9 +127,12 @@ export const useWatcherListStore = create<WatcherListStore>()(
             }
           }
         } catch (error) {
+          console.log('Caught error in checkStateChanges');
           console.error('Error checking state changes:', error);
         } finally {
+          console.log('In finally block, resetting isCheckingStates');
           set({isCheckingStates: false});
+          console.log('isCheckingStates after reset:', get().isCheckingStates);
         }
       },
 

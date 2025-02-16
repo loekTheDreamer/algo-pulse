@@ -22,17 +22,22 @@ const WatcherList = (): React.ReactElement => {
     getWatcherList,
     startPeriodicCheck,
     stopPeriodicCheck,
+    _hasHydrated,
   } = useWatcherListStore();
 
   React.useEffect(() => {
-    // Start periodic check when component mounts
-    startPeriodicCheck();
+    // const {_hasHydrated} = useWatcherListStore.getState();
+    console.log('_hasHydrated: ', _hasHydrated);
+    // Only start periodic check when component mounts and store is hydrated
+    if (_hasHydrated) {
+      startPeriodicCheck();
 
-    // Clean up when component unmounts
-    return () => {
-      stopPeriodicCheck();
-    };
-  }, [startPeriodicCheck, stopPeriodicCheck]);
+      // Clean up when component unmounts
+      return () => {
+        stopPeriodicCheck();
+      };
+    }
+  }, [startPeriodicCheck, stopPeriodicCheck, _hasHydrated]);
 
   const renderItemAccessory = (item: WatcherListItem): React.ReactElement => (
     // <Icon {...props} name="trash-outline" />
