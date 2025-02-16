@@ -1,15 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
-import {Input, Layout} from '@ui-kitten/components';
+import {Button, Input, Layout, Text} from '@ui-kitten/components';
 import {useWatcherListStore} from '../store/useWatcherListStore';
 import WatcherList from '../components/WatcherList.tsx/wactherList';
 import {watchAddress} from '../api/api';
 import {useToastStore} from '../store/useToastStore';
 
 export const HomeScreen = (): React.ReactElement => {
-  const {watchers, addWatcherItem} = useWatcherListStore();
+  const {watchers, addWatcherItem, removeWatcherItem, clearWatcherList} =
+    useWatcherListStore();
   const [value, setValue] = useState('');
-  const {showToast} = useToastStore();
+  const { showToast } = useToastStore();
 
   useEffect(() => {
     console.log(watchers);
@@ -30,7 +31,7 @@ export const HomeScreen = (): React.ReactElement => {
       if (watching.data) {
         addWatcherItem({
           ...watching.data,
-          dateAdded: new Date().toISOString(),
+          dateAdded: new Date().toISOString()
         });
         showToast('Address added to watchlist', 'success');
         setValue('');
@@ -59,6 +60,18 @@ export const HomeScreen = (): React.ReactElement => {
     </Layout>
   );
 };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     flexDirection: 'row',
+//   },
+//   layout: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+// });
 
 const styles = StyleSheet.create({
   container: {
