@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, Animated} from 'react-native';
 import {Layout, Text} from '@ui-kitten/components';
-import {useToastStore} from '@/store/useToastStore';
+import {useToastStore} from '@store/useToastStore';
 
 export const Toast = (): React.ReactElement | null => {
   const {message, type, visible} = useToastStore();

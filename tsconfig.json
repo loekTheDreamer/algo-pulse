@@ -3,15 +3,16 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
-      // "@components/*": ["./src/components/*"],
-      // "@screens/*": ["./src/screens/*"],
-      // "@utils/*": ["./src/utils/*"],
-      // "@assets/*": ["./src/assets/*"],
-      // "@hooks/*": ["./src/hooks/*"],
-      // "@services/*": ["./src/services/*"],
-      // "@types/*": ["./src/types/*"],
-      // "@/types/*": ["./src/types/*"]
+      "@/*": ["./src/*"],
+      "@api/*": ["./src/api/*"],
+      "@store/*": ["./src/store/*"],
+      "@components/*": ["./src/components/*"],
+      "@screens/*": ["./src/screens/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@services/*": ["./src/services/*"],
+      "@/types/*": ["./src/types/*"]
     },
     "jsx": "react-native",
     "strict": true,

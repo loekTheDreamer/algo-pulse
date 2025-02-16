@@ -1,6 +1,7 @@
+import type {AccountInfo, WatchAddressResponse} from '@/types/algorand';
+
 import axios, {AxiosError} from 'axios';
 import NetInfo from '@react-native-community/netinfo';
-import type {AccountInfo, WatchAddressResponse} from '../types/algorand';
 
 // const ALGO_NODE_URL = 'https://mainnet-api.algonode.cloud';
 const ALGO_NODE_URL = 'https://testnet-api.algonode.cloud';
