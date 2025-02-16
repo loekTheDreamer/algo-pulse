@@ -29,7 +29,7 @@ export const useWatcherListStore = create<WatcherListStore>()(
   persist(
     (set, get) => ({
       _hasHydrated: false,
-      setHasHydrated: (state: boolean) => set({ _hasHydrated: state }),
+      setHasHydrated: (state: boolean) => set({_hasHydrated: state}),
       watchers: {},
       lastKnownStates: {},
       isCheckingStates: false,
@@ -144,7 +144,7 @@ export const useWatcherListStore = create<WatcherListStore>()(
     {
       name: 'watcher-storage',
       storage: createJSONStorage(() => AsyncStorage),
-      onRehydrateStorage: () => (state) => {
+      onRehydrateStorage: () => state => {
         state?.setHasHydrated(true);
       },
     },
