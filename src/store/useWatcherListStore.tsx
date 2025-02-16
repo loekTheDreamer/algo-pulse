@@ -128,7 +128,7 @@ export const useWatcherListStore = create<WatcherListStore>()(
         checkInterval = setInterval(() => {
           console.log('Checking state changes...');
           get().checkStateChanges();
-        }, 6000);
+        }, 60000);
       },
 
       stopPeriodicCheck: () => {
