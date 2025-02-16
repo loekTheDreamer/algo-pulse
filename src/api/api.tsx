@@ -1,7 +1,9 @@
 import axios, {AxiosError} from 'axios';
 import NetInfo from '@react-native-community/netinfo';
 
-const ALGO_NODE_URL = 'https://mainnet-api.algonode.cloud';
+// const ALGO_NODE_URL = 'https://mainnet-api.algonode.cloud';
+
+const ALGO_NODE_URL = 'https://testnet-api.algonode.cloud';
 
 export interface AccountInfo {
   address: string;
