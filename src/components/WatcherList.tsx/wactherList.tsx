@@ -10,7 +10,7 @@ import {
 import {StyleSheet, Image} from 'react-native';
 import {formatWalletAddress} from '../../utils/formatters';
 import {useWatcherListStore} from '../../store/useWatcherListStore';
-import {WatcherListItem} from '../../store/useWatcherListStore';
+import type {WatcherListItem} from '../../types/watcherList';
 
 const TrashIcon = (props: IconProps): IconElement => (
   <Icon {...props} name="trash-2" width={16} height={16} />
@@ -54,7 +54,7 @@ const WatcherList = (): React.ReactElement => {
   const renderItemIcon = (item: WatcherListItem): IconElement => (
     <Image
       source={{uri: `https://robohash.org/${item.address}?set=set1&bgset=bg1`}}
-      style={{width: 30, height: 30}}
+      style={styles.icon}
     />
   );
 
@@ -84,6 +84,10 @@ const WatcherList = (): React.ReactElement => {
 const styles = StyleSheet.create({
   container: {
     maxHeight: 192,
+  },
+  icon: {
+    width: 30,
+    height: 30,
   },
 });
 
