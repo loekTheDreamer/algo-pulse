@@ -24,6 +24,8 @@ AlgoPulse is a comprehensive watcher list for Algorand addresses for the Algoran
 
 ```
 algo-pulse/
+├── tests__/         # Test files
+│   └── components/    # Component tests
 ├── src/
 │   ├── api/           # API integration and endpoints
 │   ├── assets/        # Logo
