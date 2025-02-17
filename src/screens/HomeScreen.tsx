@@ -22,7 +22,6 @@ export const HomeScreen = (): React.ReactElement => {
     }
     try {
       const watching = await watchAddress(trimmedValue);
-      console.log('watching: ', watching);
       if (watching.data) {
         addWatcherItem({
           ...watching.data,
@@ -32,11 +31,9 @@ export const HomeScreen = (): React.ReactElement => {
         setValue('');
       }
       if (watching.error) {
-        console.error('Error watching address:', watching.error);
         showToast(watching.error, 'error');
       }
     } catch (error) {
-      console.error('Error watching address:', error);
       showToast('Error adding address to watchlist', 'error');
     }
   };

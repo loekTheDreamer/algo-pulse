@@ -22,7 +22,6 @@ export const useWatcherListStore = create<WatcherListStore>()(
       addWatcherItem: (item: WatcherListItem) =>
         set(state => {
           if (state.watchers[item.address]) {
-            console.log('Item already exists');
             return state;
           }
           return {
@@ -46,21 +45,17 @@ export const useWatcherListStore = create<WatcherListStore>()(
 
       checkStateChanges: async () => {
         const state = get();
-        console.log('state.isCheckingStates: ', state.isCheckingStates);
 
         // Force reset if it's been stuck for more than 30 seconds
         if (state.isCheckingStates) {
-          console.log('Found isCheckingStates true, forcing reset');
           set({isCheckingStates: false});
           return; // Skip this check cycle to let state update
         }
 
         set({isCheckingStates: true});
-        console.log('Set isCheckingStates to true, proceeding with check');
         try {
-          console.log('Starting try block');
           const addresses = Object.keys(state.watchers);
-          console.log('addresses', addresses);
+
           for (const address of addresses) {
             const response = await watchAddress(address);
             if (response.data) {
@@ -72,7 +67,6 @@ export const useWatcherListStore = create<WatcherListStore>()(
                 const hasChanges = compareAccountStates(lastState, newState);
 
                 if (hasChanges) {
-                  console.log(`State changed for address: ${address}`);
                   // Show toast notification
                   useToastStore
                     .getState()
@@ -107,12 +101,8 @@ export const useWatcherListStore = create<WatcherListStore>()(
             }
           }
         } catch (error) {
-          console.log('Caught error in checkStateChanges');
-          console.error('Error checking state changes:', error);
         } finally {
-          console.log('In finally block, resetting isCheckingStates');
           set({isCheckingStates: false});
-          console.log('isCheckingStates after reset:', get().isCheckingStates);
         }
       },
 
@@ -126,7 +116,6 @@ export const useWatcherListStore = create<WatcherListStore>()(
 
         // Set up periodic check every 60 seconds
         checkInterval = setInterval(() => {
-          console.log('Checking state changes...');
           get().checkStateChanges();
         }, 60000);
       },
