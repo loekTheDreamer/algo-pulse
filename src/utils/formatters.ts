@@ -1,3 +1,5 @@
+import {CURRENCY} from '@/constants/currency';
+
 /**
  * Formats a wallet address by showing the first and last n characters with ellipsis in between
  * @param address - The wallet address to format
@@ -21,4 +23,21 @@ export const formatWalletAddress = (
   const suffix = address.slice(-suffixLength);
 
   return `${prefix}...${suffix}`;
+};
+
+/**
+ * Converts and formats an amount from microAlgos to Algos
+ * @param microAlgos - Raw amount from the blockchain in microAlgos (1 ALGO = 1,000,000 microAlgos)
+ * @returns Formatted amount in Algos with proper decimal places and symbol (e.g. "1.5 ALGO")
+ * @example
+ * formatAlgoAmount(1500000) // returns "1.5 ALGO"
+ * formatAlgoAmount(1000000) // returns "1 ALGO"
+ * formatAlgoAmount(1000) // returns "0.001 ALGO"
+ */
+export const formatAlgoAmount = (microAlgos: number): string => {
+  const algos = microAlgos / CURRENCY.ALGORAND.MICRO_UNITS;
+  return `${algos.toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: CURRENCY.ALGORAND.DECIMALS,
+  })} ${CURRENCY.ALGORAND.SYMBOL}`;
 };

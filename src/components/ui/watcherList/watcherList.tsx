@@ -1,3 +1,5 @@
+import type {WatcherListItem} from '@/types/watcherList';
+
 import React, {useState} from 'react';
 import {
   Button,
@@ -10,16 +12,15 @@ import {
 } from '@ui-kitten/components';
 import {Image, Keyboard} from 'react-native';
 import {watchAddress} from '@api/api';
-import {formatWalletAddress} from '@/utils/formatters';
-import {useWatcherListStore} from '@/store/useWatcherListStore';
-import {usePeriodicCheck} from '@/hooks/usePeriodicCheck';
-import type {WatcherListItem} from '@/types/watcherList';
-import {TrashIcon} from '@/components/icons/trashIcon/trashIcon';
-import {SendIcon} from '@/components/icons/sendIcon/sendIcon';
+import {formatAlgoAmount, formatWalletAddress} from '@/utils/formatters';
+import {useWatcherListStore} from '@store/useWatcherListStore';
+import {usePeriodicCheck} from '@hooks/usePeriodicCheck';
+import {TrashIcon} from '@components/icons/trashIcon/trashIcon';
+import {SendIcon} from '@components/icons/sendIcon/sendIcon';
 
 import {useStyles} from './WatcherList.useStyles';
-import {useToastStore} from '@/store/useToastStore';
-import {useWatcherModalStore} from '@/store/useWatcherModalStore';
+import {useToastStore} from '@store/useToastStore';
+import {useWatcherModalStore} from '@store/useWatcherModalStore';
 
 const renderSeparator = (): React.ReactElement => <Divider />;
 
@@ -55,7 +56,7 @@ const WatcherList = (): React.ReactElement => {
     setSelectedWatcher(item);
     toggle();
   };
-
+  //≈
   const renderListItem = ({
     item,
   }: {
@@ -64,7 +65,7 @@ const WatcherList = (): React.ReactElement => {
   }): React.ReactElement => (
     <ListItem
       title={formatWalletAddress(item.address)}
-      description={item.amount + ' ALGO'}
+      description={`${formatAlgoAmount(item.amount)} ≈`}
       accessoryLeft={() => renderItemIcon(item)}
       accessoryRight={() => renderItemAccessory(item)}
       onPress={() => handleItemPress(item)}
