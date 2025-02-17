@@ -1,18 +1,24 @@
+import type {WatcherListItem} from '@/types/watcherList';
+
 import React, {useState} from 'react';
 import {Image, KeyboardAvoidingView, Platform, Keyboard} from 'react-native';
 import {Button, Input, Layout} from '@ui-kitten/components';
 
 import {useWatcherListStore} from '@store/useWatcherListStore';
-import WatcherList from '@/components/ui/watcherList/watcherList';
+import WatcherList from '@/components/ui/watcherList/WatcherList';
 import {watchAddress} from '@api/api';
 import {useToastStore} from '@store/useToastStore';
 import {SendIcon} from '@/components/icons/sendIcon/sendIcon';
 
 import {useStyles} from './HomeScreen.useStyles';
+import {WatcherModal} from '@/components/ui/watcherModal/WatcherModal';
 
 export const HomeScreen = (): React.ReactElement => {
   const {watchers, addWatcherItem} = useWatcherListStore();
   const [value, setValue] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedWatcher, setSelectedWatcher] =
+    useState<WatcherListItem | null>(null);
 
   const {showToast} = useToastStore();
   const styles = useStyles();
@@ -66,7 +72,12 @@ export const HomeScreen = (): React.ReactElement => {
         <Image style={styles.logo} source={require('@/assets/logo/logo.png')} />
         <Layout style={styles.contentContainer} level="2">
           <Layout style={styles.listCard} level="3">
-            <WatcherList />
+            <WatcherList
+              onItemPress={item => {
+                setSelectedWatcher(item);
+                setModalVisible(true);
+              }}
+            />
           </Layout>
           <Layout style={styles.inputCard} level="4">
             <Input
@@ -80,6 +91,11 @@ export const HomeScreen = (): React.ReactElement => {
           </Layout>
         </Layout>
       </Layout>
+      <WatcherModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        watcher={selectedWatcher}
+      />
     </KeyboardAvoidingView>
   );
 };

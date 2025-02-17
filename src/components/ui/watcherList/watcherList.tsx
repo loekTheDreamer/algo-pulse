@@ -1,5 +1,11 @@
 import React from 'react';
-import {Button, Divider, IconElement, List, ListItem} from '@ui-kitten/components';
+import {
+  Button,
+  Divider,
+  IconElement,
+  List,
+  ListItem,
+} from '@ui-kitten/components';
 import {StyleSheet, Image} from 'react-native';
 import {formatWalletAddress} from '@/utils/formatters';
 import {useWatcherListStore} from '@/store/useWatcherListStore';
@@ -7,7 +13,11 @@ import {usePeriodicCheck} from '@/hooks/usePeriodicCheck';
 import type {WatcherListItem} from '@/types/watcherList';
 import {TrashIcon} from '@/components/icons/trashIcon/trashIcon';
 
-const WatcherList = (): React.ReactElement => {
+interface WatcherListProps {
+  onItemPress: (item: WatcherListItem) => void;
+}
+
+const WatcherList = ({onItemPress}: WatcherListProps): React.ReactElement => {
   const {removeWatcherItem, getWatcherList} = useWatcherListStore();
 
   usePeriodicCheck();
@@ -40,6 +50,7 @@ const WatcherList = (): React.ReactElement => {
       description={item.amount + ' ALGO'}
       accessoryLeft={() => renderItemIcon(item)}
       accessoryRight={() => renderItemAccessory(item)}
+      onPress={() => onItemPress(item)}
     />
   );
 
@@ -63,7 +74,9 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
-
+  modalContainer: {
+    minHeight: 192,
+  },
 });
 
 export default WatcherList;

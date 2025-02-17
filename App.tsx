@@ -5,7 +5,7 @@ import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import * as eva from '@eva-design/eva';
 
 import {HomeScreen} from './src/screens/HomeScreen';
-import {Toast} from './src/components/ui/toast/toast';
+import {Toast} from './src/components/ui/toast/Toast';
 
 export default (): React.ReactElement => {
   const colorScheme = useColorScheme();
