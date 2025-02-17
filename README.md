@@ -26,17 +26,12 @@ AlgoPulse is a comprehensive watcher list for Algorand addresses for the Algoran
 algo-pulse/
 ├── src/
 │   ├── api/           # API integration and endpoints
-│   ├── assets/        # Images, fonts, and other static assets
+│   ├── assets/        # Logo
 │   ├── components/    # Reusable UI components
-│   ├── config/        # Configuration files and environment variables
 │   ├── constants/     # Constants and enums
 │   ├── hooks/         # Custom React hooks
-│   ├── i18n/          # Internationalization and localization
-│   ├── navigation/    # Navigation configuration and types
 │   ├── screens/       # Application screens/pages
-│   ├── services/      # Business logic and external service integrations
 │   ├── store/         # State management (Redux/Context)
-│   ├── theme/         # Theme configuration, styles, and design tokens
 │   ├── types/         # TypeScript type definitions
 │   └── utils/         # Utility functions and helpers
 ├── android/           # Android specific files
