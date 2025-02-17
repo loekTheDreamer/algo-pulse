@@ -1,27 +1,26 @@
-import type {WatcherListItem} from '@/types/watcherList';
-
 import React from 'react';
-import {Image} from 'react-native';
 import {Button, IconElement, ListItem} from '@ui-kitten/components';
-
+import {Image} from 'react-native';
+import {useWatcherModalStore} from '@/store/useWatcherModalStore';
+import {useWatcherListStore} from '@/store/useWatcherListStore';
 import {TrashIcon} from '@/components/icons/trashIcon/trashIcon';
 import {formatWalletAddress} from '@/utils/formatters';
-import {useWatcherModalStore} from '@/store/useWatcherModalStore';
-
+import type {WatcherListItem} from '@/types/watcherList';
 import {useStyles} from './renderWatcherListItem.useStyles';
 
-interface RenderListItemProps {
+interface Props {
   item: WatcherListItem;
-  index: number;
-  removeWatcherItem: (item: WatcherListItem) => void;
 }
 
-export const RenderWatcherListItem = ({
-  item,
-  removeWatcherItem,
-}: RenderListItemProps): React.ReactElement => {
+const RenderWatcherListItem = ({item}: Props): React.ReactElement => {
   const {toggle, setSelectedWatcher} = useWatcherModalStore();
+  const {removeWatcherItem} = useWatcherListStore();
   const styles = useStyles();
+
+  const handleItemPress = () => {
+    setSelectedWatcher(item);
+    toggle();
+  };
 
   const renderItemAccessory = (): React.ReactElement => (
     <Button
@@ -40,11 +39,6 @@ export const RenderWatcherListItem = ({
     />
   );
 
-  const handleItemPress = () => {
-    setSelectedWatcher(item);
-    toggle();
-  };
-
   return (
     <ListItem
       title={formatWalletAddress(item.address)}
@@ -55,3 +49,5 @@ export const RenderWatcherListItem = ({
     />
   );
 };
+
+export default RenderWatcherListItem;

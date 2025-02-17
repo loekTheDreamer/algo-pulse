@@ -1,20 +1,20 @@
 import React, {useState} from 'react';
-import {Button, Divider, Input, Layout, List} from '@ui-kitten/components';
+import {Divider, Input, Layout, List} from '@ui-kitten/components';
 import {Image, Keyboard} from 'react-native';
 import {watchAddress} from '@api/api';
 import {useWatcherListStore} from '@/store/useWatcherListStore';
 import {usePeriodicCheck} from '@/hooks/usePeriodicCheck';
-import {SendIcon} from '@/components/icons/sendIcon/sendIcon';
 import {useToastStore} from '@/store/useToastStore';
 
-import {RenderWatcherListItem} from './elements/renderWatcherListItem/renderWatcherListItem';
+import RenderWatcherListItem from './elements/renderWatcherListItem/renderWatcherListItem';
 import {useStyles} from './watcherList.useStyles';
+import renderWatcherInputAccessory from './elements/renderWatcherInputAccessory/renderWatcherInputAccessory';
 
 const renderSeparator = (): React.ReactElement => <Divider />;
 
 const WatcherList = (): React.ReactElement => {
   const {watchers, addWatcherItem} = useWatcherListStore();
-  const {removeWatcherItem, getWatcherList} = useWatcherListStore();
+  const {getWatcherList} = useWatcherListStore();
   const [value, setValue] = useState('');
 
   usePeriodicCheck();
@@ -52,16 +52,6 @@ const WatcherList = (): React.ReactElement => {
     }
   };
 
-  const renderInputAccessory = (): React.ReactElement => (
-    <Button
-      size="tiny"
-      appearance="ghost"
-      status="danger"
-      accessoryLeft={SendIcon}
-      onPress={handleAddWatcher}
-    />
-  );
-
   return (
     <Layout style={styles.container} level="2">
       <Image style={styles.logo} source={require('@/assets/logo/logo.png')} />
@@ -70,12 +60,7 @@ const WatcherList = (): React.ReactElement => {
           <List
             style={styles.container}
             data={getWatcherList()}
-            renderItem={props => (
-              <RenderWatcherListItem
-                {...props}
-                removeWatcherItem={removeWatcherItem}
-              />
-            )}
+            renderItem={({item}) => <RenderWatcherListItem item={item} />}
             ItemSeparatorComponent={renderSeparator}
           />
         </Layout>
@@ -86,7 +71,9 @@ const WatcherList = (): React.ReactElement => {
             value={value}
             onChangeText={nextValue => setValue(nextValue)}
             onSubmitEditing={handleAddWatcher}
-            accessoryRight={renderInputAccessory}
+            accessoryRight={() =>
+              renderWatcherInputAccessory({handleAddWatcher})
+            }
           />
         </Layout>
       </Layout>
