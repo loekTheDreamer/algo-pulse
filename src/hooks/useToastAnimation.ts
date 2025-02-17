@@ -1,5 +1,6 @@
 import {useEffect, useRef} from 'react';
 import {Animated} from 'react-native';
+
 import {useToastStore} from '@store/useToastStore';
 
 export const useToastAnimation = () => {

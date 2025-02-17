@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Animated} from 'react-native';
 import {Layout, Text} from '@ui-kitten/components';
+
 import {useToastAnimation} from '@hooks/useToastAnimation';
 
 export const Toast = (): React.ReactElement | null => {

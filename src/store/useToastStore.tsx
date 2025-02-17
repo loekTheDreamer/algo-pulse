@@ -1,4 +1,5 @@
 import {create} from 'zustand';
+
 import {ToastState, ToastType} from '@/types/toast';
 
 export const useToastStore = create<ToastState>()(set => ({
