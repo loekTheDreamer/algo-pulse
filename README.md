@@ -70,6 +70,12 @@ yarn install
 yarn start
 ```
 
+# Testing WatcherList
+
+```bash
+npm test WatcherList.test.tsx
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -103,12 +109,6 @@ yarn clear
 ```
 
 Clears the React Native cache and starts the development server.
-
-## Testing WatcherList
-
-```bash
-npm test WatcherList.test.tsx
-```
 
 ## Contributing Guidelines
 
