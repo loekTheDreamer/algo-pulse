@@ -137,7 +137,7 @@ export const useWatcherListStore = create<WatcherListStore>()(
         checkInterval = setInterval(() => {
           get().checkStateChanges();
           get().fetchAlgoPrice();
-        }, 6000);
+        }, 60000);
       },
 
       stopPeriodicCheck: () => {
