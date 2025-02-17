@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
   container: {
     position: 'absolute',
-    bottom: 60,
+    top: 60,
     left: 0,
     right: 0,
     zIndex: 9999,
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     marginHorizontal: 16,
-    marginBottom: 16,
+    marginTop: 16,
     flexDirection: 'row',
     alignItems: 'center',
   },
