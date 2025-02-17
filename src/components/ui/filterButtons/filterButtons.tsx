@@ -2,7 +2,6 @@ import React from 'react';
 import {Button, ButtonGroup} from '@ui-kitten/components';
 import {
   TrendingIcon,
-  DownloadIcon,
   CalendarIcon,
 } from '@components/icons/filterIcons/filterIcons';
 

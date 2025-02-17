@@ -16,17 +16,54 @@ export const WatcherModal = (): React.ReactElement => {
             </Text>
             {selectedWatcher && (
               <>
+                <Text category="s1" style={styles.fieldTitle}>
+                  Basic Information
+                </Text>
                 <Text>Address: {selectedWatcher.address}</Text>
-                <Text>Amount: {selectedWatcher.amount} ALGO</Text>
+                <Text>Balance: {selectedWatcher.amount} ALGO</Text>
+                <Text>
+                  Pending Rewards: {selectedWatcher['pending-rewards']}
+                  microALGO
+                </Text>
+                <Text>Total Rewards: {selectedWatcher.rewards} microALGO</Text>
+                <Text>
+                  Minimum Balance: {selectedWatcher['min-balance']} microALGO
+                </Text>
+
+                <Text
+                  category="s1"
+                  style={[styles.fieldTitle, styles.sectionSpace]}>
+                  Assets & Applications
+                </Text>
+                <Text>
+                  Total Assets: {selectedWatcher['total-assets-opted-in']}
+                </Text>
+                <Text>
+                  Created Assets: {selectedWatcher['total-created-assets']}
+                </Text>
+                <Text>
+                  Total Apps: {selectedWatcher['total-apps-opted-in']}
+                </Text>
+                <Text>
+                  Created Apps: {selectedWatcher['total-created-apps']}
+                </Text>
+
+                <Text
+                  category="s1"
+                  style={[styles.fieldTitle, styles.sectionSpace]}>
+                  Other Details
+                </Text>
+                <Text>Status: {selectedWatcher.status}</Text>
+                <Text>Round: {selectedWatcher.round}</Text>
                 <Text>
                   Added:{' '}
                   {new Date(selectedWatcher.dateAdded).toLocaleDateString()}
                 </Text>
+                <Button style={styles.closeButton} onPress={toggle}>
+                  CLOSE
+                </Button>
               </>
             )}
-            <Button style={styles.closeButton} onPress={toggle}>
-              CLOSE
-            </Button>
           </Card>
         </Pressable>
       </Pressable>
@@ -44,9 +81,18 @@ const styles = StyleSheet.create({
   modalCard: {
     margin: 20,
     minWidth: 300,
+    maxHeight: '92%',
   },
   title: {
-    marginBottom: 10,
+    marginBottom: 15,
+  },
+  fieldTitle: {
+    marginTop: 5,
+    marginBottom: 5,
+    color: '#8F9BB3',
+  },
+  sectionSpace: {
+    marginTop: 15,
   },
   closeButton: {
     marginTop: 15,

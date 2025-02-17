@@ -89,7 +89,7 @@ export const useWatcherListStore = create<WatcherListStore>()(
                   useToastStore
                     .getState()
                     .showToast(
-                      `Balance changed for ${formatWalletAddress(address)}`,
+                      `State changed for ${formatWalletAddress(address)}`,
                       'info',
                     );
                   // Update the watcher item with new state
