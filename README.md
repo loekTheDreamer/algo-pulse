@@ -11,7 +11,7 @@ AlgoPulse is a comprehensive watcher list for Algorand addresses for the Algoran
 - Monitoring wallets address via Algorand API
 - Customizable alerts: no internet connection, enter valid Algorand address, successful added algorand address, already added address
 - Sort by date added and amount
-- light and dark mode
+- Light and dark mode
 - Press watcherItem to view more information.
 
 ## Light and dark mode.
