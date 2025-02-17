@@ -22,12 +22,14 @@ interface WatcherListProps {
   selectedFilter: FilterType;
 }
 
-const WatcherList = ({ selectedFilter }: WatcherListProps): React.ReactElement => {
+const WatcherList = ({
+  selectedFilter,
+}: WatcherListProps): React.ReactElement => {
   const {removeWatcherItem, getWatcherList, algoPrice} = useWatcherListStore();
 
   const getSortedWatcherList = () => {
     const list = getWatcherList();
-    
+
     switch (selectedFilter) {
       case 'amount':
         return [...list].sort((a, b) => b.amount - a.amount);
@@ -38,8 +40,9 @@ const WatcherList = ({ selectedFilter }: WatcherListProps): React.ReactElement =
           return bChanges - aChanges;
         });
       case 'date':
-        return [...list].sort((a, b) => 
-          new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
+        return [...list].sort(
+          (a, b) =>
+            new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime(),
         );
       default:
         return list;
