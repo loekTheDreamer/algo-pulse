@@ -26,12 +26,12 @@ export const useStyles = () => {
     logo: {
       width: 100,
       height: 100,
+      marginBottom: 0,
       alignSelf: 'center',
       marginVertical: 20,
       borderRadius: 15,
       borderWidth: 1,
       borderColor: theme['color-basic-transparent-focus-border'],
     },
-
   });
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, ButtonGroup} from '@ui-kitten/components';
+import {Button} from '@ui-kitten/components';
 import {
   TrendingIcon,
   CalendarIcon,
@@ -20,19 +20,30 @@ const FilterButtons = ({
 }: FilterButtonsProps): React.ReactElement => {
   const styles = useStyles();
 
+  const handleToggle = () => {
+    onFilterChange(selectedFilter === 'amount' ? 'calendar' : 'amount');
+  };
+
+  const renderIcon = (props: any) => {
+    const IconComponent =
+      selectedFilter === 'amount' ? TrendingIcon : CalendarIcon;
+    return (
+      <IconComponent
+        {...props}
+        style={[props.style, styles.icon]}
+      />
+    );
+  };
+
   return (
-    <ButtonGroup size="small" style={styles.buttonGroup}>
-      <Button
-        accessoryLeft={TrendingIcon}
-        onPress={() => onFilterChange('amount')}
-        status={selectedFilter === 'amount' ? 'primary' : 'basic'}
-      />
-      <Button
-        accessoryLeft={CalendarIcon}
-        onPress={() => onFilterChange('calendar')}
-        status={selectedFilter === 'calendar' ? 'primary' : 'basic'}
-      />
-    </ButtonGroup>
+    <Button
+      size="tiny"
+      style={styles.buttonGroup}
+      appearance="ghost"
+      status="primary"
+      accessoryLeft={renderIcon}
+      onPress={handleToggle}
+    />
   );
 };
 

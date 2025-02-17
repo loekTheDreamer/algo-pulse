@@ -57,35 +57,37 @@ const WatcherContainer = (): React.ReactElement => {
     <Button
       size="tiny"
       appearance="ghost"
-      status="danger"
+      status="primary"
       accessoryLeft={SendIcon}
       onPress={handleAddWatcher}
     />
   );
 
   return (
-    <Layout style={styles.container} level="2">
+    <>
       <Image style={styles.logo} source={require('@/assets/logo/logo.png')} />
-      <Layout style={styles.contentContainer} level="2">
-        <FilterButtons
-          selectedFilter={selectedFilter}
-          onFilterChange={setSelectedFilter}
-        />
-        <Layout style={styles.listCard} level="3">
-          <WatcherList selectedFilter={selectedFilter} />
-        </Layout>
-        <Layout style={styles.inputCard} level="4">
-          <Input
-            placeholder="Add Algorand address to start watching..."
-            size="small"
-            value={value}
-            onChangeText={nextValue => setValue(nextValue)}
-            onSubmitEditing={handleAddWatcher}
-            accessoryRight={renderInputAccessory}
+      <Layout style={styles.container} level="2">
+        <Layout style={styles.contentContainer} level="2">
+          <FilterButtons
+            selectedFilter={selectedFilter}
+            onFilterChange={setSelectedFilter}
           />
+          <Layout style={styles.listCard} level="3">
+            <WatcherList selectedFilter={selectedFilter} />
+          </Layout>
+          <Layout style={styles.inputCard} level="4">
+            <Input
+              placeholder="Add Algorand address to start watching..."
+              size="small"
+              value={value}
+              onChangeText={nextValue => setValue(nextValue)}
+              onSubmitEditing={handleAddWatcher}
+              accessoryRight={renderInputAccessory}
+            />
+          </Layout>
         </Layout>
       </Layout>
-    </Layout>
+    </>
   );
 };
 

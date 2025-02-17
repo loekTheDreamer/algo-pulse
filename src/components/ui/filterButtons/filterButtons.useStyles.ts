@@ -5,6 +5,13 @@ export const useStyles = () => {
     buttonGroup: {
       borderRadius: 8,
       alignSelf: 'flex-end',
+      width: 40,
+      height: 40,
+      padding: 0,
+    },
+    icon: {
+      width: 18,
+      height: 18,
     },
   });
 };
