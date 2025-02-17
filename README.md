@@ -104,11 +104,15 @@ yarn clear
 
 Clears the React Native cache and starts the development server.
 
-## Testing WatcherList
+## Known Issues
 
-```bash
-npm test WatcherList.test.tsx
-```
+We're currently experiencing some issues with UI-Kitten component testing. These issues are being actively worked on and include:
+
+1. Inconsistent test results for UI-Kitten components
+2. Difficulty mocking certain UI-Kitten behaviors
+3. Challenges with snapshot testing of styled components
+
+Our team is working on resolving these issues and improving test coverage for our UI components.
 
 ## Contributing Guidelines
 
