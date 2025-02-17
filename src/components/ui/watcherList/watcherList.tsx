@@ -66,7 +66,9 @@ const WatcherList = (): React.ReactElement => {
     <ListItem
       title={formatWalletAddress(item.address)}
       description={`${formatAlgoAmount(item.amount)} ≈ ${
-        algoPrice ? `$${(item.amount * algoPrice).toFixed(2)}` : '...'
+        algoPrice
+          ? `$${((item.amount / 1_000_000) * algoPrice).toFixed(2)}`
+          : '...'
       }`}
       accessoryLeft={() => renderItemIcon(item)}
       accessoryRight={() => renderItemAccessory(item)}
