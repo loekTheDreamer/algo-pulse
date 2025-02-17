@@ -1,26 +1,38 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Button,
   Divider,
   IconElement,
+  Input,
+  Layout,
   List,
   ListItem,
 } from '@ui-kitten/components';
-import {StyleSheet, Image} from 'react-native';
+import {Image, Keyboard} from 'react-native';
+import {watchAddress} from '@api/api';
 import {formatWalletAddress} from '@/utils/formatters';
 import {useWatcherListStore} from '@/store/useWatcherListStore';
 import {usePeriodicCheck} from '@/hooks/usePeriodicCheck';
 import type {WatcherListItem} from '@/types/watcherList';
 import {TrashIcon} from '@/components/icons/trashIcon/trashIcon';
+import {SendIcon} from '@/components/icons/sendIcon/sendIcon';
 
-interface WatcherListProps {
-  onItemPress: (item: WatcherListItem) => void;
-}
+import {useStyles} from './WatcherList.useStyles';
+import {useToastStore} from '@/store/useToastStore';
+import {useWatcherModalStore} from '@/store/useWatcherModalStore';
 
-const WatcherList = ({onItemPress}: WatcherListProps): React.ReactElement => {
+const renderSeparator = (): React.ReactElement => <Divider />;
+
+const WatcherList = (): React.ReactElement => {
+  const {watchers, addWatcherItem} = useWatcherListStore();
+
   const {removeWatcherItem, getWatcherList} = useWatcherListStore();
+  const [value, setValue] = useState('');
 
   usePeriodicCheck();
+  const styles = useStyles();
+  const {showToast} = useToastStore();
+  const {toggle, setSelectedWatcher} = useWatcherModalStore();
 
   const renderItemAccessory = (item: WatcherListItem): React.ReactElement => (
     <Button
@@ -39,7 +51,12 @@ const WatcherList = ({onItemPress}: WatcherListProps): React.ReactElement => {
     />
   );
 
-  const renderItem = ({
+  const handleItemPress = (item: WatcherListItem) => {
+    setSelectedWatcher(item);
+    toggle();
+  };
+
+  const renderListItem = ({
     item,
   }: {
     item: WatcherListItem;
@@ -50,33 +67,76 @@ const WatcherList = ({onItemPress}: WatcherListProps): React.ReactElement => {
       description={item.amount + ' ALGO'}
       accessoryLeft={() => renderItemIcon(item)}
       accessoryRight={() => renderItemAccessory(item)}
-      onPress={() => onItemPress(item)}
+      onPress={() => handleItemPress(item)}
     />
   );
 
-  const renderSeparator = (): React.ReactElement => <Divider />;
+  const handleAddWatcher = async () => {
+    const trimmedValue = value.trim();
+
+    if (trimmedValue === '') {
+      return;
+    }
+
+    if (watchers[trimmedValue]) {
+      showToast('This address is already being watched', 'error');
+      return;
+    }
+    try {
+      const watching = await watchAddress(trimmedValue);
+      if (watching.data) {
+        addWatcherItem({
+          ...watching.data,
+          dateAdded: new Date().toISOString(),
+        });
+        showToast('Address added to watchlist', 'success');
+      }
+      if (watching.error) {
+        showToast(watching.error, 'error');
+      }
+    } catch (error) {
+      showToast('Error adding address to watchlist', 'error');
+    } finally {
+      setValue('');
+      Keyboard.dismiss();
+    }
+  };
+
+  const renderInputAccessory = (): React.ReactElement => (
+    <Button
+      size="tiny"
+      appearance="ghost"
+      status="danger"
+      accessoryLeft={SendIcon}
+      onPress={handleAddWatcher}
+    />
+  );
 
   return (
-    <List
-      style={styles.container}
-      data={getWatcherList()}
-      renderItem={renderItem}
-      ItemSeparatorComponent={renderSeparator}
-    />
+    <Layout style={styles.container} level="2">
+      <Image style={styles.logo} source={require('@/assets/logo/logo.png')} />
+      <Layout style={styles.contentContainer} level="2">
+        <Layout style={styles.listCard} level="3">
+          <List
+            style={styles.container}
+            data={getWatcherList()}
+            renderItem={renderListItem}
+            ItemSeparatorComponent={renderSeparator}
+          />
+        </Layout>
+        <Layout style={styles.inputCard} level="4">
+          <Input
+            placeholder="Add Algorand address to start watching..."
+            size="small"
+            value={value}
+            onChangeText={nextValue => setValue(nextValue)}
+            onSubmitEditing={handleAddWatcher}
+            accessoryRight={renderInputAccessory}
+          />
+        </Layout>
+      </Layout>
+    </Layout>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  icon: {
-    width: 30,
-    height: 30,
-  },
-  modalContainer: {
-    minHeight: 192,
-  },
-});
 
 export default WatcherList;

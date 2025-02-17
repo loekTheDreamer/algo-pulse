@@ -1,47 +1,30 @@
 import React from 'react';
 import {Modal, Pressable, StyleSheet} from 'react-native';
 import {Button, Card, Text} from '@ui-kitten/components';
-import type {WatcherListItem} from '@/types/watcherList';
 
-interface WatcherModalProps {
-  visible: boolean;
-  onClose: () => void;
-  watcher: WatcherListItem | null;
-}
+import {useWatcherModalStore} from '@/store/useWatcherModalStore';
 
-export const WatcherModal = ({
-  visible,
-  onClose,
-  watcher,
-}: WatcherModalProps): React.ReactElement => {
+export const WatcherModal = (): React.ReactElement => {
+  const {visible, toggle, selectedWatcher} = useWatcherModalStore();
   return (
-    <Modal
-      visible={visible}
-      transparent={true}
-      onRequestClose={onClose}>
-      <Pressable
-        style={styles.modalOverlay}
-        onPress={onClose}>
+    <Modal visible={visible} transparent={true} onRequestClose={toggle}>
+      <Pressable style={styles.modalOverlay} onPress={toggle}>
         <Pressable>
-          <Card
-            style={styles.modalCard}
-            disabled={true}>
+          <Card style={styles.modalCard} disabled={true}>
             <Text category="h6" style={styles.title}>
               Wallet Details
             </Text>
-            {watcher && (
+            {selectedWatcher && (
               <>
-                <Text>Address: {watcher.address}</Text>
-                <Text>Amount: {watcher.amount} ALGO</Text>
+                <Text>Address: {selectedWatcher.address}</Text>
+                <Text>Amount: {selectedWatcher.amount} ALGO</Text>
                 <Text>
                   Added:{' '}
-                  {new Date(watcher.dateAdded).toLocaleDateString()}
+                  {new Date(selectedWatcher.dateAdded).toLocaleDateString()}
                 </Text>
               </>
             )}
-            <Button
-              style={styles.closeButton}
-              onPress={onClose}>
+            <Button style={styles.closeButton} onPress={toggle}>
               CLOSE
             </Button>
           </Card>
