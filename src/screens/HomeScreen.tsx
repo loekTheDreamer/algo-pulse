@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Image} from 'react-native';
+import {Image, KeyboardAvoidingView, Platform} from 'react-native';
 import {Button, Input, Layout} from '@ui-kitten/components';
 
 import {useWatcherListStore} from '@store/useWatcherListStore';
@@ -57,9 +57,12 @@ export const HomeScreen = (): React.ReactElement => {
   );
 
   return (
-    <Layout style={styles.container} level="2">
-      <Image style={styles.logo} source={require('@/assets/logo/logo.png')} />
-      <Layout style={styles.contentContainer} level="2">
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}>
+      <Layout style={styles.container} level="2">
+        <Image style={styles.logo} source={require('@/assets/logo/logo.png')} />
+        <Layout style={styles.contentContainer} level="2">
         <Layout style={styles.listCard} level="3">
           <WatcherList />
         </Layout>
@@ -73,7 +76,8 @@ export const HomeScreen = (): React.ReactElement => {
             accessoryRight={renderItemAccessory}
           />
         </Layout>
+        </Layout>
       </Layout>
-    </Layout>
+    </KeyboardAvoidingView>
   );
 };
