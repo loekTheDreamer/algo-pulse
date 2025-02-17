@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   Button,
   Icon,
@@ -10,6 +10,7 @@ import {
 import {StyleSheet, Image} from 'react-native';
 import {formatWalletAddress} from '@/utils/formatters';
 import {useWatcherListStore} from '@/store/useWatcherListStore';
+import {usePeriodicCheck} from '@/hooks/usePeriodicCheck';
 import type {WatcherListItem} from '@/types/watcherList';
 
 const TrashIcon = (props: IconProps): IconElement => (
@@ -17,31 +18,11 @@ const TrashIcon = (props: IconProps): IconElement => (
 );
 
 const WatcherList = (): React.ReactElement => {
-  const {
-    removeWatcherItem,
-    getWatcherList,
-    startPeriodicCheck,
-    stopPeriodicCheck,
-    _hasHydrated,
-  } = useWatcherListStore();
+  const {removeWatcherItem, getWatcherList} = useWatcherListStore();
 
-  useEffect(() => {
-    // const {_hasHydrated} = useWatcherListStore.getState();
-    console.log('_hasHydrated: ', _hasHydrated);
-    // Only start periodic check when component mounts and store is hydrated
-    if (_hasHydrated) {
-      startPeriodicCheck();
-
-      // Clean up when component unmounts
-      return () => {
-        stopPeriodicCheck();
-      };
-    }
-  }, [startPeriodicCheck, stopPeriodicCheck, _hasHydrated]);
+  usePeriodicCheck();
 
   const renderItemAccessory = (item: WatcherListItem): React.ReactElement => (
-    // <Icon {...props} name="trash-outline" />
-    // <Button size="tiny"  >FOLLOW</Button>
     <Button
       size="tiny"
       appearance="ghost"
