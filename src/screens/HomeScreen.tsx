@@ -1,9 +1,9 @@
 import React from 'react';
 import {KeyboardAvoidingView, Platform} from 'react-native';
 
-import WatcherList from '@/components/ui/watcherList/WatcherList';
+import WatcherList from '@/components/ui/watcherList/watcherList';
 
-import {useStyles} from './HomeScreen.useStyles';
+import {useStyles} from '@screens/HomeScreen.useStyles';
 import {WatcherModal} from '@/components/ui/watcherModal/WatcherModal';
 
 export const HomeScreen = (): React.ReactElement => {
