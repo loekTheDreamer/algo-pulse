@@ -3,8 +3,9 @@ import {SafeAreaView, StyleSheet, useColorScheme} from 'react-native';
 import {ApplicationProvider, IconRegistry, Layout} from '@ui-kitten/components';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import * as eva from '@eva-design/eva';
+
 import {HomeScreen} from './src/screens/HomeScreen';
-import { Toast } from './src/components/Toast';
+import {Toast} from './src/components/ui/toast/Toast';
 
 export default (): React.ReactElement => {
   const colorScheme = useColorScheme();
@@ -15,7 +16,7 @@ export default (): React.ReactElement => {
       <ApplicationProvider
         {...eva}
         theme={colorScheme === 'dark' ? eva.dark : eva.light}>
-        <Layout style={styles.container}>
+        <Layout style={styles.container} level="2">
           <SafeAreaView style={styles.safeArea}>
             <HomeScreen />
           </SafeAreaView>

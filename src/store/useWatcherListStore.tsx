@@ -5,6 +5,7 @@ import {createJSONStorage, persist} from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {watchAddress} from '@/api/api';
+import {fetchAlgoPrice} from '../api/priceAPI';
 import {useToastStore} from '@/store/useToastStore';
 import {formatWalletAddress} from '@/utils/formatters';
 import {compareAccountStates} from '@/utils/stateComparison';
@@ -19,10 +20,11 @@ export const useWatcherListStore = create<WatcherListStore>()(
       watchers: {},
       lastKnownStates: {},
       isCheckingStates: false,
+      algoPrice: null,
+      isPriceFetching: false,
       addWatcherItem: (item: WatcherListItem) =>
         set(state => {
           if (state.watchers[item.address]) {
-            console.log('Item already exists');
             return state;
           }
           return {
@@ -44,23 +46,34 @@ export const useWatcherListStore = create<WatcherListStore>()(
       clearWatcherList: () => set(() => ({watchers: {}})),
       getWatcherList: () => Object.values(get().watchers),
 
+      fetchAlgoPrice: async () => {
+        const state = get();
+        if (state.isPriceFetching) return;
+
+        set({isPriceFetching: true});
+        try {
+          const price = await fetchAlgoPrice();
+          set({algoPrice: price});
+        } catch (error) {
+          console.error('Failed to fetch ALGO price:', error);
+        } finally {
+          set({isPriceFetching: false});
+        }
+      },
+
       checkStateChanges: async () => {
         const state = get();
-        console.log('state.isCheckingStates: ', state.isCheckingStates);
 
         // Force reset if it's been stuck for more than 30 seconds
         if (state.isCheckingStates) {
-          console.log('Found isCheckingStates true, forcing reset');
           set({isCheckingStates: false});
           return; // Skip this check cycle to let state update
         }
 
         set({isCheckingStates: true});
-        console.log('Set isCheckingStates to true, proceeding with check');
         try {
-          console.log('Starting try block');
           const addresses = Object.keys(state.watchers);
-          console.log('addresses', addresses);
+
           for (const address of addresses) {
             const response = await watchAddress(address);
             if (response.data) {
@@ -72,12 +85,11 @@ export const useWatcherListStore = create<WatcherListStore>()(
                 const hasChanges = compareAccountStates(lastState, newState);
 
                 if (hasChanges) {
-                  console.log(`State changed for address: ${address}`);
                   // Show toast notification
                   useToastStore
                     .getState()
                     .showToast(
-                      `Balance changed for ${formatWalletAddress(address)}`,
+                      `State changed for ${formatWalletAddress(address)}`,
                       'info',
                     );
                   // Update the watcher item with new state
@@ -107,12 +119,8 @@ export const useWatcherListStore = create<WatcherListStore>()(
             }
           }
         } catch (error) {
-          console.log('Caught error in checkStateChanges');
-          console.error('Error checking state changes:', error);
         } finally {
-          console.log('In finally block, resetting isCheckingStates');
           set({isCheckingStates: false});
-          console.log('isCheckingStates after reset:', get().isCheckingStates);
         }
       },
 
@@ -121,14 +129,15 @@ export const useWatcherListStore = create<WatcherListStore>()(
           return;
         }
 
-        // Start immediate check
+        // Start immediate checks
         get().checkStateChanges();
+        get().fetchAlgoPrice();
 
         // Set up periodic check every 60 seconds
         checkInterval = setInterval(() => {
-          console.log('Checking state changes...');
           get().checkStateChanges();
-        }, 60000);
+          get().fetchAlgoPrice();
+        }, 6000);
       },
 
       stopPeriodicCheck: () => {

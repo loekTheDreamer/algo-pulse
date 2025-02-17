@@ -1,97 +1,133 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# AlgoPulse
 
-# Getting Started
+## Project Overview
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+AlgoPulse is a comprehensive watcher list for Algorand addresses for the Algorand blockchain ecosystem. It provides real-time insights and wallet tracking.
 
-## Step 1: Start Metro
+## Features
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+- Real-time Algorand blockchain monitoring
+- Comprehensive watcher list with visualizations
+- Monitoring wallets address via Algorand API
+- Customizable alerts: no internet connection, enter valid Algorand address, successful added algorand address, already added address
+- Sort by date added and amount
+- light and dark mode
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+## Light and dark mode.
 
-```sh
-# Using npm
-npm start
+<div style="display: flex; justify-content: space-around;">
+  <img src="public/screenshots/light_mode.png" alt="Light Mode" width="45%" />
+  <img src="public/screenshots/dark_mode.png" alt="Dark Mode" width="45%" />
+</div>
 
-# OR using Yarn
+## Project Structure
+
+```
+algo-pulse/
+├── src/
+│   ├── api/           # API integration and endpoints
+│   ├── assets/        # Logo
+│   ├── components/    # Reusable UI components
+│   ├── constants/     # Constants and enums
+│   ├── hooks/         # Custom React hooks
+│   ├── screens/       # Application screens/pages
+│   ├── store/         # State management (Redux/Context)
+│   ├── types/         # TypeScript type definitions
+│   └── utils/         # Utility functions and helpers
+├── android/           # Android specific files
+├── ios/               # iOS specific files
+├── public/            # Static assets
+├── .eslintrc.js       # ESLint configuration
+├── .prettierrc.js     # Prettier configuration
+├── babel.config.js    # Babel configuration
+├── tsconfig.json      # TypeScript configuration
+└── package.json       # Project dependencies and scripts
+```
+
+## Installation Instructions
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/loekTheDreamer/algo-pulse.git
+```
+
+2. Navigate to the project directory:
+
+```bash
+cd algo-pulse
+```
+
+3. Install dependencies using yarn:
+
+```bash
+yarn install
+```
+
+4. Start the development server:
+
+```bash
 yarn start
 ```
 
-## Step 2: Build and run your app
+## Available Scripts
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+In the project directory, you can run:
 
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+```bash
+yarn start
 ```
 
-### iOS
+Runs the app in development mode.
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+```bash
+yarn test
 ```
 
-Then, and every time you update your native dependencies, run:
+Launches the test runner.
 
-```sh
-bundle exec pod install
+```bash
+yarn lint
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+Runs ESLint to check for code quality issues.
 
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
+```bash
 yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+Runs the iOS app in the iPhone 16 simulator.
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+```bash
+yarn clear
+```
 
-## Step 3: Modify your app
+Clears the React Native cache and starts the development server.
 
-Now that you have successfully run the app, let's make changes!
+## Testing WatcherList
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+```bash
+npm test WatcherList.test.tsx
+```
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+## Contributing Guidelines
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+We welcome contributions to AlgoPulse! Please follow these steps:
 
-## Congratulations! :tada:
+1. Fork the repository and create your branch from `main`
+2. Install dependencies using `yarn install`
+3. Make your changes, following our coding standards
+4. Run tests and linting:
+   ```bash
+   yarn test
+   yarn lint
+   ```
+5. Commit your changes with a descriptive message
+6. Push your changes to your fork
+7. Open a pull request to the `main` branch
 
-You've successfully run and modified your React Native App. :partying_face:
+Please ensure your code follows our TypeScript and ESLint rules, and include tests for new features.
 
-### Now what?
+## License
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+AlgoPulse is [MIT licensed](https://opensource.org/licenses/MIT). See the [LICENSE](https://github.com/loekTheDreamer/algo-pulse/blob/main/LICENSE) file for more information.
