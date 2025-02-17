@@ -5,6 +5,7 @@ import {createJSONStorage, persist} from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {watchAddress} from '@/api/api';
+import {fetchAlgoPrice} from '../api/priceAPI';
 import {useToastStore} from '@/store/useToastStore';
 import {formatWalletAddress} from '@/utils/formatters';
 import {compareAccountStates} from '@/utils/stateComparison';
@@ -19,6 +20,8 @@ export const useWatcherListStore = create<WatcherListStore>()(
       watchers: {},
       lastKnownStates: {},
       isCheckingStates: false,
+      algoPrice: null,
+      isPriceFetching: false,
       addWatcherItem: (item: WatcherListItem) =>
         set(state => {
           if (state.watchers[item.address]) {
@@ -42,6 +45,21 @@ export const useWatcherListStore = create<WatcherListStore>()(
         }),
       clearWatcherList: () => set(() => ({watchers: {}})),
       getWatcherList: () => Object.values(get().watchers),
+
+      fetchAlgoPrice: async () => {
+        const state = get();
+        if (state.isPriceFetching) return;
+
+        set({ isPriceFetching: true });
+        try {
+          const price = await fetchAlgoPrice();
+          set({ algoPrice: price });
+        } catch (error) {
+          console.error('Failed to fetch ALGO price:', error);
+        } finally {
+          set({ isPriceFetching: false });
+        }
+      },
 
       checkStateChanges: async () => {
         const state = get();
@@ -111,12 +129,14 @@ export const useWatcherListStore = create<WatcherListStore>()(
           return;
         }
 
-        // Start immediate check
+        // Start immediate checks
         get().checkStateChanges();
+        get().fetchAlgoPrice();
 
         // Set up periodic check every 60 seconds
         checkInterval = setInterval(() => {
           get().checkStateChanges();
+          get().fetchAlgoPrice();
         }, 60000);
       },
 

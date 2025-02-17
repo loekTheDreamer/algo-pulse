@@ -25,7 +25,7 @@ import {useWatcherModalStore} from '@store/useWatcherModalStore';
 const renderSeparator = (): React.ReactElement => <Divider />;
 
 const WatcherList = (): React.ReactElement => {
-  const {watchers, addWatcherItem} = useWatcherListStore();
+  const {watchers, addWatcherItem, algoPrice} = useWatcherListStore();
 
   const {removeWatcherItem, getWatcherList} = useWatcherListStore();
   const [value, setValue] = useState('');
@@ -65,7 +65,9 @@ const WatcherList = (): React.ReactElement => {
   }): React.ReactElement => (
     <ListItem
       title={formatWalletAddress(item.address)}
-      description={`${formatAlgoAmount(item.amount)} ≈`}
+      description={`${formatAlgoAmount(item.amount)} ≈ ${
+        algoPrice ? `$${(item.amount * algoPrice).toFixed(2)}` : '...'
+      }`}
       accessoryLeft={() => renderItemIcon(item)}
       accessoryRight={() => renderItemAccessory(item)}
       onPress={() => handleItemPress(item)}

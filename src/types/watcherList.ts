@@ -10,11 +10,14 @@ export interface WatcherListStore {
   watchers: Record<string, WatcherListItem>;
   lastKnownStates: Record<string, AccountInfo>;
   isCheckingStates: boolean;
+  algoPrice: number | null;
+  isPriceFetching: boolean;
   addWatcherItem: (item: WatcherListItem) => void;
   removeWatcherItem: (item: WatcherListItem) => void;
   clearWatcherList: () => void;
   getWatcherList: () => WatcherListItem[];
   checkStateChanges: () => Promise<void>;
+  fetchAlgoPrice: () => Promise<void>;
   startPeriodicCheck: () => void;
   stopPeriodicCheck: () => void;
 }
