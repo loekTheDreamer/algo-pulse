@@ -42,43 +42,17 @@ const WatcherList = ({
 
     switch (selectedFilter) {
       case 'amount':
-        console.log('RAW VALUES BEFORE SORT:');
-        watcherList.forEach(item => {
-          console.log(
-            `${item.address}: ${item.amount} (${typeof item.amount})`,
-          );
-        });
-
         const sorted = [...watcherList].sort((a, b) => {
           // Convert to numbers and multiply by 1 to ensure numeric values
           const aVal = Number(a.amount) * 1;
           const bVal = Number(b.amount) * 1;
-          console.log(`Comparing ${aVal} vs ${bVal} = ${bVal - aVal}`);
           return bVal - aVal;
         });
-
-        console.log('\nRAW VALUES AFTER SORT:');
-        sorted.forEach(item => {
-          console.log(`${item.address}: ${item.amount}`);
-        });
-
-        console.log(
-          'After sort:',
-          sorted.map(item => `${item.address}: ${item.amount} microAlgos`),
-        );
         return sorted;
       case 'calendar':
-        console.log(
-          'Calendar sort - before:',
-          watcherList.map(item => `${item.address}: ${item.dateAdded}`),
-        );
         const calendarSorted = [...watcherList].sort(
           (a, b) =>
             new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime(),
-        );
-        console.log(
-          'Calendar sort - after:',
-          calendarSorted.map(item => `${item.address}: ${item.dateAdded}`),
         );
         return calendarSorted;
       default:
