@@ -48,10 +48,6 @@ export const useStyles = () => {
       borderWidth: 1,
       borderColor: theme['color-basic-transparent-focus-border'],
     },
-    icon: {
-      width: 30,
-      height: 30,
-    },
     modalContainer: {
       minHeight: 192,
     },
