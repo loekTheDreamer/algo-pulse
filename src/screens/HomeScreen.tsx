@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {Image} from 'react-native';
 import {Button, Input, Layout} from '@ui-kitten/components';
 
 import {useWatcherListStore} from '@store/useWatcherListStore';
@@ -8,13 +8,21 @@ import {watchAddress} from '@api/api';
 import {useToastStore} from '@store/useToastStore';
 import {SendIcon} from '@/components/icons/sendIcon/sendIcon';
 
+import {useStyles} from './HomeScreen.useStyles';
+
 export const HomeScreen = (): React.ReactElement => {
   const {watchers, addWatcherItem} = useWatcherListStore();
   const [value, setValue] = useState('');
+
   const {showToast} = useToastStore();
+  const styles = useStyles();
 
   const handleAddWatcher = async () => {
     const trimmedValue = value.trim();
+
+    if (trimmedValue === '') {
+      return;
+    }
 
     if (watchers[trimmedValue]) {
       showToast('This address is already being watched', 'error');
@@ -49,9 +57,13 @@ export const HomeScreen = (): React.ReactElement => {
   );
 
   return (
-    <Layout style={styles.container}>
-      <Layout style={styles.contentContainer} level="1">
-        <Layout style={styles.card} level="3">
+    <Layout style={styles.container} level="2">
+      <Image style={styles.logo} source={require('@/assets/logo/logo.png')} />
+      <Layout style={styles.contentContainer} level="2">
+        <Layout style={styles.listCard} level="3">
+          <WatcherList />
+        </Layout>
+        <Layout style={styles.inputCard} level="4">
           <Input
             placeholder="Add Algorand address to start watching..."
             size="small"
@@ -61,37 +73,7 @@ export const HomeScreen = (): React.ReactElement => {
             accessoryRight={renderItemAccessory}
           />
         </Layout>
-        <Layout style={styles.card} level="2">
-          <WatcherList />
-        </Layout>
       </Layout>
     </Layout>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  watcherListContainer: {
-    padding: 16,
-    paddingBottom: 0,
-  },
-  contentContainer: {
-    flex: 1,
-    padding: 16,
-  },
-  card: {
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 16,
-  },
-  button: {
-    marginVertical: 8,
-  },
-  layout: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

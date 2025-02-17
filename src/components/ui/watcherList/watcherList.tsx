@@ -37,7 +37,7 @@ const WatcherList = (): React.ReactElement => {
   }): React.ReactElement => (
     <ListItem
       title={formatWalletAddress(item.address)}
-      description={item.amount}
+      description={item.amount + ' ALGO'}
       accessoryLeft={() => renderItemIcon(item)}
       accessoryRight={() => renderItemAccessory(item)}
     />
@@ -54,7 +54,7 @@ const WatcherList = (): React.ReactElement => {
 
 const styles = StyleSheet.create({
   container: {
-    maxHeight: 192,
+    flex: 1,
   },
   icon: {
     width: 30,

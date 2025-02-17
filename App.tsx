@@ -16,7 +16,7 @@ export default (): React.ReactElement => {
       <ApplicationProvider
         {...eva}
         theme={colorScheme === 'dark' ? eva.dark : eva.light}>
-        <Layout style={styles.container}>
+        <Layout style={styles.container} level="2">
           <SafeAreaView style={styles.safeArea}>
             <HomeScreen />
           </SafeAreaView>
