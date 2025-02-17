@@ -1,41 +1,18 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, Animated} from 'react-native';
 import {Layout, Text} from '@ui-kitten/components';
-import {useToastStore} from '@store/useToastStore';
+import {useToastAnimation} from '@hooks/useToastAnimation';
 
 export const Toast = (): React.ReactElement | null => {
-  const {message, type, visible} = useToastStore();
-  const fadeAnim = React.useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    if (visible) {
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    } else {
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    }
-  }, [visible, fadeAnim]);
+  const {fadeAnim, message, visible, type} = useToastAnimation();
 
   if (!visible) {
     return null;
   }
 
-  const backgroundColor = {
-    success: '#4CAF50',
-    error: '#F44336',
-    info: '#2196F3',
-  }[type];
-
   return (
     <Animated.View style={[styles.container, {opacity: fadeAnim}]}>
-      <Layout style={[styles.content, {backgroundColor}]}>
+      <Layout style={[styles.content, styles[type]]}>
         <Text style={styles.message}>{message}</Text>
       </Layout>
     </Animated.View>
@@ -43,6 +20,15 @@ export const Toast = (): React.ReactElement | null => {
 };
 
 const styles = StyleSheet.create({
+  success: {
+    backgroundColor: '#4CAF50',
+  },
+  error: {
+    backgroundColor: '#F44336',
+  },
+  info: {
+    backgroundColor: '#2196F3',
+  },
   container: {
     position: 'absolute',
     bottom: 60,

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {Input, Layout} from '@ui-kitten/components';
 
@@ -11,10 +11,6 @@ export const HomeScreen = (): React.ReactElement => {
   const {watchers, addWatcherItem} = useWatcherListStore();
   const [value, setValue] = useState('');
   const {showToast} = useToastStore();
-
-  useEffect(() => {
-    console.log(watchers);
-  }, [watchers]);
 
   const handleAddWatcher = async () => {
     const trimmedValue = value.trim();

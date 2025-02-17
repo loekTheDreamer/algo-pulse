@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Button,
   Icon,
@@ -25,7 +25,7 @@ const WatcherList = (): React.ReactElement => {
     _hasHydrated,
   } = useWatcherListStore();
 
-  React.useEffect(() => {
+  useEffect(() => {
     // const {_hasHydrated} = useWatcherListStore.getState();
     console.log('_hasHydrated: ', _hasHydrated);
     // Only start periodic check when component mounts and store is hydrated
