@@ -1,6 +1,7 @@
 import type {WatcherListItem} from '@/types/watcherList';
 
 import React from 'react';
+import {getSortedWatcherList as sortWatcherList} from '@/utils/watcherListSorter';
 import {
   Button,
   Divider,
@@ -33,31 +34,7 @@ const WatcherList = ({
     if (!_hasHydrated) {
       return [];
     }
-
-    const watcherList = getWatcherList();
-
-    if (!watcherList || watcherList.length === 0) {
-      return [];
-    }
-
-    switch (selectedFilter) {
-      case 'amount':
-        const sorted = [...watcherList].sort((a, b) => {
-          // Convert to numbers and multiply by 1 to ensure numeric values
-          const aVal = Number(a.amount) * 1;
-          const bVal = Number(b.amount) * 1;
-          return bVal - aVal;
-        });
-        return sorted;
-      case 'calendar':
-        const calendarSorted = [...watcherList].sort(
-          (a, b) =>
-            new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime(),
-        );
-        return calendarSorted;
-      default:
-        return watcherList;
-    }
+    return sortWatcherList(getWatcherList(), selectedFilter);
   };
   const styles = useStyles();
   const {toggle, setSelectedWatcher} = useWatcherModalStore();
