@@ -15,6 +15,7 @@ import {TrashIcon} from '@components/icons/trashIcon/trashIcon';
 import {useWatcherModalStore} from '@store/useWatcherModalStore';
 
 import {useStyles} from './watcherList.useStyles';
+import {FilterType} from '../filterButtons/filterButtons';
 
 const renderSeparator = (): React.ReactElement => <Divider />;
 
@@ -29,21 +30,49 @@ const WatcherList = ({
 
   const getSortedWatcherList = () => {
     const list = getWatcherList();
-
+    console.warn('FILTER TYPE:', selectedFilter);
+    console.warn('LIST:', list);
     switch (selectedFilter) {
       case 'amount':
-        return [...list].sort((a, b) => b.amount - a.amount);
-      case 'trending':
-        return [...list].sort((a, b) => {
-          const aChanges = Object.keys(a.stateChanges || {}).length;
-          const bChanges = Object.keys(b.stateChanges || {}).length;
-          return bChanges - aChanges;
+        console.log('RAW VALUES BEFORE SORT:');
+        list.forEach(item => {
+          console.log(
+            `${item.address}: ${item.amount} (${typeof item.amount})`,
+          );
         });
-      case 'date':
-        return [...list].sort(
-          (a, b) =>
-            new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime(),
+
+        const sorted = [...list].sort((a, b) => {
+          // Convert to numbers and multiply by 1 to ensure numeric values
+          const aVal = Number(a.amount) * 1;
+          const bVal = Number(b.amount) * 1;
+          console.log(`Comparing ${aVal} vs ${bVal} = ${bVal - aVal}`);
+          return bVal - aVal;
+        });
+
+        console.log('\nRAW VALUES AFTER SORT:');
+        sorted.forEach(item => {
+          console.log(`${item.address}: ${item.amount}`);
+        });
+
+        console.log(
+          'After sort:',
+          sorted.map(item => `${item.address}: ${item.amount} microAlgos`),
         );
+        return sorted;
+      case 'calendar':
+        console.log(
+          'Calendar sort - before:',
+          list.map(item => `${item.address}: ${item.dateAdded}`),
+        );
+        const calendarSorted = [...list].sort(
+          (a, b) =>
+            new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime(),
+        );
+        console.log(
+          'Calendar sort - after:',
+          calendarSorted.map(item => `${item.address}: ${item.dateAdded}`),
+        );
+        return calendarSorted;
       default:
         return list;
     }
@@ -81,7 +110,7 @@ const WatcherList = ({
   }): React.ReactElement => (
     <ListItem
       title={formatWalletAddress(item.address)}
-      description={`${formatAlgoAmount(item.amount)} ≈ ${
+      description={`${formatAlgoAmount(item.amount)} ALGO ≈ ${
         algoPrice
           ? `$${((item.amount / 1_000_000) * algoPrice).toFixed(2)}`
           : '...'

@@ -50,14 +50,14 @@ export const useWatcherListStore = create<WatcherListStore>()(
         const state = get();
         if (state.isPriceFetching) return;
 
-        set({ isPriceFetching: true });
+        set({isPriceFetching: true});
         try {
           const price = await fetchAlgoPrice();
-          set({ algoPrice: price });
+          set({algoPrice: price});
         } catch (error) {
           console.error('Failed to fetch ALGO price:', error);
         } finally {
-          set({ isPriceFetching: false });
+          set({isPriceFetching: false});
         }
       },
 
@@ -137,7 +137,7 @@ export const useWatcherListStore = create<WatcherListStore>()(
         checkInterval = setInterval(() => {
           get().checkStateChanges();
           get().fetchAlgoPrice();
-        }, 60000);
+        }, 6000);
       },
 
       stopPeriodicCheck: () => {

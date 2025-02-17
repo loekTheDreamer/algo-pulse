@@ -15,7 +15,7 @@ import {useToastStore} from '@store/useToastStore';
 
 const WatcherContainer = (): React.ReactElement => {
   const {watchers, addWatcherItem} = useWatcherListStore();
-  const [selectedFilter, setSelectedFilter] = useState<FilterType>('date');
+  const [selectedFilter, setSelectedFilter] = useState<FilterType>('amount');
   const [value, setValue] = useState('');
 
   usePeriodicCheck();

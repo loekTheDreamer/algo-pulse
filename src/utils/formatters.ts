@@ -34,10 +34,14 @@ export const formatWalletAddress = (
  * formatAlgoAmount(1000000) // returns "1 ALGO"
  * formatAlgoAmount(1000) // returns "0.001 ALGO"
  */
+export const getAlgoAmount = (microAlgos: number): number => {
+  return microAlgos / CURRENCY.ALGORAND.MICRO_UNITS;
+};
+
 export const formatAlgoAmount = (microAlgos: number): string => {
-  const algos = microAlgos / CURRENCY.ALGORAND.MICRO_UNITS;
-  return `${algos.toLocaleString(undefined, {
+  const algos = getAlgoAmount(microAlgos);
+  return algos.toLocaleString(undefined, {
     minimumFractionDigits: 0,
     maximumFractionDigits: CURRENCY.ALGORAND.DECIMALS,
-  })} ${CURRENCY.ALGORAND.SYMBOL}`;
+  });
 };

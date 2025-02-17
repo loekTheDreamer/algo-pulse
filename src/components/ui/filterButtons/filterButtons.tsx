@@ -8,7 +8,7 @@ import {
 
 import {useStyles} from './filterButtons.useStyles';
 
-export type FilterType = 'trending' | 'downloaded' | 'calendar';
+export type FilterType = 'amount' | 'calendar';
 
 interface FilterButtonsProps {
   selectedFilter: FilterType;
@@ -25,13 +25,8 @@ const FilterButtons = ({
     <ButtonGroup size="small" style={styles.buttonGroup}>
       <Button
         accessoryLeft={TrendingIcon}
-        onPress={() => onFilterChange('trending')}
-        status={selectedFilter === 'trending' ? 'primary' : 'basic'}
-      />
-      <Button
-        accessoryLeft={DownloadIcon}
-        onPress={() => onFilterChange('downloaded')}
-        status={selectedFilter === 'downloaded' ? 'primary' : 'basic'}
+        onPress={() => onFilterChange('amount')}
+        status={selectedFilter === 'amount' ? 'primary' : 'basic'}
       />
       <Button
         accessoryLeft={CalendarIcon}
