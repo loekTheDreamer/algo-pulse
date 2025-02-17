@@ -4,6 +4,7 @@ import {ApplicationProvider, IconRegistry, Layout} from '@ui-kitten/components';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import * as eva from '@eva-design/eva';
 import {HomeScreen} from './src/screens/HomeScreen';
+import { Toast } from './src/components/Toast';
 
 export default (): React.ReactElement => {
   const colorScheme = useColorScheme();
@@ -18,6 +19,7 @@ export default (): React.ReactElement => {
           <SafeAreaView style={styles.safeArea}>
             <HomeScreen />
           </SafeAreaView>
+          <Toast />
         </Layout>
       </ApplicationProvider>
     </>

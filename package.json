@@ -1,5 +1,5 @@
 {
-  "name": "AlgoPulse",
+  "name": "algopulse",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -7,11 +7,13 @@
     "ios": "react-native run-ios --simulator='iPhone 16'",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "clear": "react-native start --reset-cache"
   },
   "dependencies": {
     "@eva-design/eva": "^2.2.0",
     "@react-native-async-storage/async-storage": "^2.1.1",
+    "@react-native-community/netinfo": "^11.4.1",
     "@ui-kitten/components": "^5.3.1",
     "@ui-kitten/eva-icons": "^5.3.1",
     "axios": "^1.7.9",
@@ -32,8 +34,10 @@
     "@react-native/metro-config": "0.77.1",
     "@react-native/typescript-config": "0.77.1",
     "@types/jest": "^29.5.13",
+    "@types/node": "^22.13.4",
     "@types/react": "^18.2.6",
     "@types/react-test-renderer": "^18.0.0",
+    "babel-plugin-module-resolver": "^5.0.2",
     "eslint": "^8.19.0",
     "jest": "^29.6.3",
     "prettier": "2.8.8",
