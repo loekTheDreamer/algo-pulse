@@ -8,6 +8,8 @@ export const useStyles = () => {
     icon: {
       width: 30,
       height: 30,
+      borderRadius: 4,
+      overflow: 'hidden',
     },
   });
 };
