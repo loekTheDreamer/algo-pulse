@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
-import {Input, Layout} from '@ui-kitten/components';
+import {Button, Input, Layout} from '@ui-kitten/components';
 
 import {useWatcherListStore} from '@store/useWatcherListStore';
 import WatcherList from '@/components/ui/watcherList/watcherList';
 import {watchAddress} from '@api/api';
 import {useToastStore} from '@store/useToastStore';
+import {SendIcon} from '@/components/icons/sendIcon/sendIcon';
 
 export const HomeScreen = (): React.ReactElement => {
   const {watchers, addWatcherItem} = useWatcherListStore();
@@ -14,16 +15,14 @@ export const HomeScreen = (): React.ReactElement => {
 
   const handleAddWatcher = async () => {
     const trimmedValue = value.trim();
-    if (!trimmedValue) {
-      showToast('Please enter an Algorand address', 'error');
-      return;
-    }
+
     if (watchers[trimmedValue]) {
       showToast('This address is already being watched', 'error');
       return;
     }
     try {
       const watching = await watchAddress(trimmedValue);
+      console.log('watching: ', watching);
       if (watching.data) {
         addWatcherItem({
           ...watching.data,
@@ -32,11 +31,25 @@ export const HomeScreen = (): React.ReactElement => {
         showToast('Address added to watchlist', 'success');
         setValue('');
       }
+      if (watching.error) {
+        console.error('Error watching address:', watching.error);
+        showToast(watching.error, 'error');
+      }
     } catch (error) {
       console.error('Error watching address:', error);
       showToast('Error adding address to watchlist', 'error');
     }
   };
+
+  const renderItemAccessory = (): React.ReactElement => (
+    <Button
+      size="tiny"
+      appearance="ghost"
+      status="danger"
+      accessoryLeft={SendIcon}
+      onPress={handleAddWatcher}
+    />
+  );
 
   return (
     <Layout style={styles.container}>
@@ -44,10 +57,11 @@ export const HomeScreen = (): React.ReactElement => {
         <Layout style={styles.card} level="3">
           <Input
             placeholder="Add Algorand address to start watching..."
+            size="small"
             value={value}
             onChangeText={nextValue => setValue(nextValue)}
             onSubmitEditing={handleAddWatcher}
-            // accessoryRight={renderIcon}
+            accessoryRight={renderItemAccessory}
           />
         </Layout>
         <Layout style={styles.card} level="2">

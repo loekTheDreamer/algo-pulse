@@ -1,21 +1,11 @@
 import React from 'react';
-import {
-  Button,
-  Icon,
-  IconElement,
-  List,
-  ListItem,
-  IconProps,
-} from '@ui-kitten/components';
+import {Button, IconElement, List, ListItem} from '@ui-kitten/components';
 import {StyleSheet, Image} from 'react-native';
 import {formatWalletAddress} from '@/utils/formatters';
 import {useWatcherListStore} from '@/store/useWatcherListStore';
 import {usePeriodicCheck} from '@/hooks/usePeriodicCheck';
 import type {WatcherListItem} from '@/types/watcherList';
-
-const TrashIcon = (props: IconProps): IconElement => (
-  <Icon {...props} name="trash-2" width={16} height={16} />
-);
+import {TrashIcon} from '@/components/icons/trashIcon/trashIcon';
 
 const WatcherList = (): React.ReactElement => {
   const {removeWatcherItem, getWatcherList} = useWatcherListStore();
