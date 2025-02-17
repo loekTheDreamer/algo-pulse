@@ -30,6 +30,9 @@ const styles = StyleSheet.create({
   info: {
     backgroundColor: '#2196F3',
   },
+  warning: {
+    backgroundColor: '#FF9800',
+  },
   container: {
     position: 'absolute',
     top: 60,
