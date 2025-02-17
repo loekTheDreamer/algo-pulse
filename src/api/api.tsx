@@ -41,7 +41,7 @@ export const watchAddress = async (
 
     if (axiosError.response) {
       // Server responded with error status
-      errorMessage = `Server error: ${axiosError.response.status}`;
+      errorMessage = 'Please enter a valid Algorand address';
     } else if (axiosError.request) {
       // Request made but no response received
       errorMessage = 'No response from server. Please try again.';
