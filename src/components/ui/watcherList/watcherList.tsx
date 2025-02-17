@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
 import {Divider, Input, Layout, List} from '@ui-kitten/components';
 import {Image, Keyboard} from 'react-native';
+
 import {watchAddress} from '@api/api';
 import {useWatcherListStore} from '@/store/useWatcherListStore';
 import {usePeriodicCheck} from '@/hooks/usePeriodicCheck';
 import {useToastStore} from '@/store/useToastStore';
 
-import RenderWatcherListItem from './elements/renderWatcherListItem/renderWatcherListItem';
-import {useStyles} from './watcherList.useStyles';
+import RenderWatcherListItem from './elements/RenderWatcherListItem/RenderWatcherListItem';
 import renderWatcherInputAccessory from './elements/renderWatcherInputAccessory/renderWatcherInputAccessory';
+import {useStyles} from './watcherList.useStyles';
 
 const renderSeparator = (): React.ReactElement => <Divider />;
 

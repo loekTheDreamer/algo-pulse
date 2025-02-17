@@ -6,7 +6,7 @@ interface RenderWatcherInputAccessoryProps {
   handleAddWatcher: () => void;
 }
 
-const RenderWatcherInputAccessory = ({
+const renderWatcherInputAccessory = ({
   handleAddWatcher,
 }: RenderWatcherInputAccessoryProps): React.ReactElement => {
   return (
@@ -20,4 +20,4 @@ const RenderWatcherInputAccessory = ({
   );
 };
 
-export default RenderWatcherInputAccessory;
+export default renderWatcherInputAccessory;

@@ -6,7 +6,7 @@ import {useWatcherListStore} from '@/store/useWatcherListStore';
 import {TrashIcon} from '@/components/icons/trashIcon/trashIcon';
 import {formatWalletAddress} from '@/utils/formatters';
 import type {WatcherListItem} from '@/types/watcherList';
-import {useStyles} from './renderWatcherListItem.useStyles';
+import {useStyles} from './RenderWatcherListItem.useStyles';
 
 interface Props {
   item: WatcherListItem;
