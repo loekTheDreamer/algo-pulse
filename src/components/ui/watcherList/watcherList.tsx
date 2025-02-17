@@ -68,6 +68,7 @@ const WatcherList = ({
     index: number;
   }): React.ReactElement => (
     <ListItem
+      testID="watcher-item"
       title={formatWalletAddress(item.address)}
       description={`${formatAlgoAmount(item.amount)} ALGO ≈ ${
         algoPrice
