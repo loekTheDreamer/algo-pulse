@@ -26,22 +26,30 @@ interface WatcherListProps {
 const WatcherList = ({
   selectedFilter,
 }: WatcherListProps): React.ReactElement => {
-  const {removeWatcherItem, getWatcherList, algoPrice} = useWatcherListStore();
+  const {removeWatcherItem, getWatcherList, algoPrice, _hasHydrated} =
+    useWatcherListStore();
 
   const getSortedWatcherList = () => {
-    const list = getWatcherList();
-    console.warn('FILTER TYPE:', selectedFilter);
-    console.warn('LIST:', list);
+    if (!_hasHydrated) {
+      return [];
+    }
+
+    const watcherList = getWatcherList();
+
+    if (!watcherList || watcherList.length === 0) {
+      return [];
+    }
+
     switch (selectedFilter) {
       case 'amount':
         console.log('RAW VALUES BEFORE SORT:');
-        list.forEach(item => {
+        watcherList.forEach(item => {
           console.log(
             `${item.address}: ${item.amount} (${typeof item.amount})`,
           );
         });
 
-        const sorted = [...list].sort((a, b) => {
+        const sorted = [...watcherList].sort((a, b) => {
           // Convert to numbers and multiply by 1 to ensure numeric values
           const aVal = Number(a.amount) * 1;
           const bVal = Number(b.amount) * 1;
@@ -62,9 +70,9 @@ const WatcherList = ({
       case 'calendar':
         console.log(
           'Calendar sort - before:',
-          list.map(item => `${item.address}: ${item.dateAdded}`),
+          watcherList.map(item => `${item.address}: ${item.dateAdded}`),
         );
-        const calendarSorted = [...list].sort(
+        const calendarSorted = [...watcherList].sort(
           (a, b) =>
             new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime(),
         );
@@ -74,7 +82,7 @@ const WatcherList = ({
         );
         return calendarSorted;
       default:
-        return list;
+        return watcherList;
     }
   };
   const styles = useStyles();
