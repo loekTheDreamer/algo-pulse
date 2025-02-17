@@ -1,16 +1,25 @@
 import React, {useState} from 'react';
-import {Divider, Input, Layout, List, Button} from '@ui-kitten/components';
+import {
+  Button,
+  Divider,
+  IconElement,
+  Input,
+  Layout,
+  List,
+  ListItem,
+} from '@ui-kitten/components';
 import {Image, Keyboard} from 'react-native';
 import {watchAddress} from '@api/api';
+import {formatWalletAddress} from '@/utils/formatters';
 import {useWatcherListStore} from '@/store/useWatcherListStore';
 import {usePeriodicCheck} from '@/hooks/usePeriodicCheck';
-import type {WatcherListItem as WatcherListItemType} from '@/types/watcherList';
+import type {WatcherListItem} from '@/types/watcherList';
+import {TrashIcon} from '@/components/icons/trashIcon/trashIcon';
 import {SendIcon} from '@/components/icons/sendIcon/sendIcon';
 
 import {useStyles} from './WatcherList.useStyles';
 import {useToastStore} from '@/store/useToastStore';
 import {useWatcherModalStore} from '@/store/useWatcherModalStore';
-import {WatcherListItem} from './elements/watcherListItem/WatcherListItem';
 
 const renderSeparator = (): React.ReactElement => <Divider />;
 
@@ -25,7 +34,24 @@ const WatcherList = (): React.ReactElement => {
   const {showToast} = useToastStore();
   const {toggle, setSelectedWatcher} = useWatcherModalStore();
 
-  const handleItemPress = (item: WatcherListItemType) => {
+  const renderItemAccessory = (item: WatcherListItem): React.ReactElement => (
+    <Button
+      size="tiny"
+      appearance="ghost"
+      status="danger"
+      accessoryLeft={TrashIcon}
+      onPress={() => removeWatcherItem(item)}
+    />
+  );
+
+  const renderItemIcon = (item: WatcherListItem): IconElement => (
+    <Image
+      source={{uri: `https://robohash.org/${item.address}?set=set1&bgset=bg1`}}
+      style={styles.icon}
+    />
+  );
+
+  const handleItemPress = (item: WatcherListItem) => {
     setSelectedWatcher(item);
     toggle();
   };
@@ -33,13 +59,15 @@ const WatcherList = (): React.ReactElement => {
   const renderListItem = ({
     item,
   }: {
-    item: WatcherListItemType;
+    item: WatcherListItem;
     index: number;
   }): React.ReactElement => (
-    <WatcherListItem
-      item={item}
-      onPress={handleItemPress}
-      onRemove={removeWatcherItem}
+    <ListItem
+      title={formatWalletAddress(item.address)}
+      description={item.amount + ' ALGO'}
+      accessoryLeft={() => renderItemIcon(item)}
+      accessoryRight={() => renderItemAccessory(item)}
+      onPress={() => handleItemPress(item)}
     />
   );
 
