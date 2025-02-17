@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, IconElement, List, ListItem} from '@ui-kitten/components';
+import {Button, Divider, IconElement, List, ListItem} from '@ui-kitten/components';
 import {StyleSheet, Image} from 'react-native';
 import {formatWalletAddress} from '@/utils/formatters';
 import {useWatcherListStore} from '@/store/useWatcherListStore';
@@ -43,11 +43,14 @@ const WatcherList = (): React.ReactElement => {
     />
   );
 
+  const renderSeparator = (): React.ReactElement => <Divider />;
+
   return (
     <List
       style={styles.container}
       data={getWatcherList()}
       renderItem={renderItem}
+      ItemSeparatorComponent={renderSeparator}
     />
   );
 };
@@ -60,6 +63,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
+
 });
 
 export default WatcherList;
