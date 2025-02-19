@@ -1,7 +1,12 @@
 import React from 'react';
-import {KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 
-import WatcherList from '@/components/ui/watcherContainer/watcherContainer';
+import WatcherContainer from '@/components/ui/watcherContainer/watcherContainer';
 
 import {useStyles} from './HomeScreen.useStyles';
 import {WatcherModal} from '@/components/ui/watcherModal/WatcherModal';
@@ -14,7 +19,7 @@ export const HomeScreen = (): React.ReactElement => {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}>
-        <WatcherList />
+        <WatcherContainer />
         <WatcherModal />
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
